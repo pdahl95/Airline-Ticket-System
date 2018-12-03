@@ -1,4 +1,4 @@
-package edu.csumb.pdahl.project2;
+package edu.csumb.pdahl.project2.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import edu.csumb.pdahl.project2.R;
 
 public class ReserveSeatActivity extends AppCompatActivity {
 

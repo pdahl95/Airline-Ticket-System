@@ -1,9 +1,12 @@
-package edu.csumb.pdahl.project2;
+package edu.csumb.pdahl.project2.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class selectFlight extends AppCompatActivity {
+import edu.csumb.pdahl.project2.R;
+
+public class SelectFlightActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

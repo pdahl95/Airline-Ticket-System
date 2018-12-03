@@ -14,19 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AirlineTicket">
+        <activity android:name=".ui.AirlineTicket">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAccount" />
-        <activity android:name=".ReserveSeatActivity" />
-        <activity android:name=".CancelReservation" />
-        <activity android:name=".ManageSystem" />
-        <activity android:name=".login" />
-        <activity android:name=".selectFlight"></activity>
+        <activity android:name=".ui.CreateAccount" />
+        <activity android:name=".ui.ReserveSeatActivity" />
+        <activity android:name=".ui.CancelReservation" />
+        <activity android:name=".ui.ManageSystem" />
+        <activity android:name=".ui.login" />
+        <activity android:name=".ui.SelectFlightActivity"></activity>
     </application>
 
 </manifest>
