@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="84dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -18,7 +18,7 @@
         android:layout_marginStart="38dp"
         android:layout_marginLeft="38dp"
         android:layout_marginTop="206dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="54dp"
         android:layout_marginRight="40dp"
         android:gravity="center"
         android:text="@string/titleAccount"
@@ -27,25 +27,36 @@
 
     <EditText
         android:id="@+id/userName"
-        android:layout_width="277dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_marginStart="54dp"
         android:layout_marginLeft="54dp"
         android:layout_marginTop="26dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginRight="0dp"
         android:ems="10"
         android:hint="Enter Username"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="278dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userName"
-        android:layout_alignStart="@+id/userName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="54dp"
+        android:layout_marginLeft="54dp"
         android:layout_marginTop="22dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginRight="0dp"
         android:ems="10"
         android:hint="Enter Password"
         android:inputType="textPassword" />
@@ -70,7 +81,7 @@
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
-        android:layout_height="172dp"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView2"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -91,7 +102,7 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="369dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/register"
         android:layout_alignParentStart="true"
@@ -106,6 +117,31 @@
         android:layout_marginRight="111dp"
         android:layout_marginBottom="20dp"
         app:srcCompat="@drawable/plane" />
+
+    <TextView
+        android:id="@+id/textView_successAlert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="288dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold|italic"
+        android:gravity="center"
+        android:padding="8dp"
+        android:visibility="invisible"
+        android:text="@string/successMessage"
+
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

@@ -47,4 +47,32 @@ public class Flight {
     public double getPrice() {
         return price;
     }
+
+    public void setFlightId(int flightId) {
+        this.flightId = flightId;
+    }
+
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
+    public void setDepartureCity(String departureCity) {
+        this.departureCity = departureCity;
+    }
+
+    public void setArrivalCity(String arrivalCity) {
+        this.arrivalCity = arrivalCity;
+    }
+
+    public void setDepartureTime(long departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

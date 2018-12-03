@@ -5,7 +5,7 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 
-@Entity(primaryKeys = {"userId", "flightId"},
+@Entity(primaryKeys = {"user_id", "flight_id"},
         foreignKeys = {
                 @ForeignKey(entity = User.class,
                         parentColumns = "user_id",
@@ -20,5 +20,19 @@ public class UserFlight {
     @ColumnInfo(name = "flight_id")
     private int flightId;
 
+    public int getUserId() {
+        return userId;
+    }
 
+    public int getFlightId() {
+        return flightId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setFlightId(int flightId) {
+        this.flightId = flightId;
+    }
 }
