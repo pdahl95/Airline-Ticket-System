@@ -1,16 +1,17 @@
 package edu.csumb.pdahl.project2.model;
 
-public class User {
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
+@Entity
+public class User {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "user_id")
     private int userId;
+    @ColumnInfo(name = "user_name")
     private String userName;
     private String password;
-
-    public User(int userId, String userName, String password) {
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
-    }
 
     public int getUserId() {
         return userId;

@@ -1,23 +1,24 @@
 package edu.csumb.pdahl.project2.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class Flight {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "flight_id")
     private int flightId;
+    @ColumnInfo(name = "flight_number")
     private String flightNumber;
-    private String departueCity;
+    @ColumnInfo(name = "departure_city")
+    private String departureCity;
+    @ColumnInfo(name = "arrival_city")
     private String arrivalCity;
+    @ColumnInfo(name = "departure_time")
     private long departureTime;
     private int capacity;
     private double price;
-
-    public Flight(int flightId, String flightNumber, String departueCity, String arrivalCity, long departureTime, int capacity, double price) {
-        this.flightId = flightId;
-        this.flightNumber = flightNumber;
-        this.departueCity = departueCity;
-        this.arrivalCity = arrivalCity;
-        this.departureTime = departureTime;
-        this.capacity = capacity;
-        this.price = price;
-    }
 
     public int getFlightId() {
         return flightId;
@@ -27,8 +28,8 @@ public class Flight {
         return flightNumber;
     }
 
-    public String getDepartueCity() {
-        return departueCity;
+    public String getDepartureCity() {
+        return departureCity;
     }
 
     public String getArrivalCity() {

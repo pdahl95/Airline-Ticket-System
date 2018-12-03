@@ -1,16 +1,17 @@
 package edu.csumb.pdahl.project2.model;
 
-public class Log {
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
+@Entity
+public class Log {
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "type_id")
     private int typeId;
     private String values;
 
-    public Log(int id, int typeId, String values) {
-        this.id = id;
-        this.typeId = typeId;
-        this.values = values;
-    }
 
     public int getId() {
         return id;
