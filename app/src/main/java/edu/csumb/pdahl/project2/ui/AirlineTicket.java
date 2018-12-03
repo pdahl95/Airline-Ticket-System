@@ -54,12 +54,10 @@ public class AirlineTicket extends AppCompatActivity {
     public void openCreateAccount(){
         Intent intent = new Intent(this, CreateAccount.class);
         startActivity(intent);
-
     }
     public void openReserveSeat(){
         Intent intent = new Intent(this, ReserveSeatActivity.class);
         startActivity(intent);
-        finish();
     }
     public void openCancelReservation(){
         Intent intent = new Intent(this, CancelReservation.class);
