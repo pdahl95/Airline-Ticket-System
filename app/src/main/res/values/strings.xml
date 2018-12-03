@@ -14,7 +14,7 @@
     <string name="information">Welcome! <br><br> </br> Please enter your depature city and your desired destination city,
         select the amount of tickets you are searching!</br>  </string>
     <string name="title_activity_login">Sign in</string>
-    <!-- Strings related to login -->
+    <!-- Strings related to LoginActivity -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
