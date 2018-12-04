@@ -1,5 +1,6 @@
 package edu.csumb.pdahl.project2.ui;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public class CreateAccount extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         createAccountAlertTextView.setVisibility(View.VISIBLE);
+                        goBackToMainActivity();
                     }
                 });
                 builder.show();
@@ -49,4 +51,8 @@ public class CreateAccount extends AppCompatActivity {
         });
     }
 
+    void goBackToMainActivity(){
+        Intent intent = new Intent(this, AirlineTicket.class);
+        startActivity(intent);
+    }
 }
