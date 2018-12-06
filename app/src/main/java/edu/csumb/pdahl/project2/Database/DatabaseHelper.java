@@ -1,0 +1,76 @@
+package edu.csumb.pdahl.project2.Database;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+    public static final String DATABASE_NAME = "user.db";
+    public static final String USER_TABLE = "user_table";
+    public static final class ColsUser {
+        public static final String UUID = "uuid";
+        public static final String USERNAME = "user_name";
+        public static final String PASSWORD = "password";
+    }
+
+    public static final String  FLIGHT_TABLE= "flight_table";
+    public static final class ColsFlight {
+        public static final String UUID = "uuid";
+        public static final String FLIGHTNUM = "flight_num";
+        public static final String DEPARTURE = "departure";
+        public static final String ARRIVAL = "arrival";
+        public static final String DEPARTURETIME = "departure_time";
+        public static final String CAPACITY = "capacity";
+        public static final String PRICE = "price";
+    }
+
+
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String createUserTable = "CREATE TABLE " + USER_TABLE + "(" + ColsUser.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " USERNAME_TEXT, PASSWORD_TEXT )";
+        db.execSQL(createUserTable);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP IF TABLE EXISTS " + USER_TABLE);
+        onCreate(db);
+    }
+
+
+    public boolean addUserData(String userName, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ColsUser.USERNAME, userName);
+        contentValues.put(ColsUser.PASSWORD, password);
+
+        long result = db.insert(USER_TABLE, null, contentValues);
+
+        if(result == -1){
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    public Cursor showData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + USER_TABLE, null);
+        return data;
+    }
+
+    public Integer deleteData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(USER_TABLE, "ID = ?", new String[] {id});
+    }
+
+}

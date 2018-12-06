@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.CreateAccount" />
+        <activity android:name=".ui.CreateAccountActivity" />
         <activity android:name=".ui.ReserveSeatActivity" />
         <activity android:name=".ui.CancelReservation" />
         <activity android:name=".ui.ManageSystem" />

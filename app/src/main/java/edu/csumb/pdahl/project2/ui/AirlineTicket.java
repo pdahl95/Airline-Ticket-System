@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
 
 public class AirlineTicket extends AppCompatActivity {
@@ -52,7 +53,7 @@ public class AirlineTicket extends AppCompatActivity {
 
     }
     public void openCreateAccount(){
-        Intent intent = new Intent(this, CreateAccount.class);
+        Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
     }
     public void openReserveSeat(){
