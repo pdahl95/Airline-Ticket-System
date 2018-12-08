@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "user.db";
+
     public static final String USER_TABLE = "user_table";
     public static final class ColsUser {
         public static final String UUID = "uuid";
@@ -34,14 +35,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createUserTable = "CREATE TABLE " + USER_TABLE + "(" + ColsUser.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                " USERNAME_TEXT, PASSWORD_TEXT )";
+        String createUserTable = "CREATE TABLE " + USER_TABLE + "(" + ColsUser.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ColsUser.USERNAME +  ", "
+                + ColsUser.PASSWORD
+                + ")";
+
+        String createFlightTable = "CREATE TABLE " +  FLIGHT_TABLE + "(" + ColsFlight.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ColsFlight.DEPARTURE + ", "
+                + ColsFlight.ARRIVAL + ", "
+                + ColsFlight.DEPARTURETIME + ", "
+                + ColsFlight.CAPACITY + ", "
+                + ColsFlight.PRICE
+                + ")";
+
         db.execSQL(createUserTable);
+        db.execSQL(createFlightTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP IF TABLE EXISTS " + USER_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
         onCreate(db);
     }
 
@@ -54,23 +67,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long result = db.insert(USER_TABLE, null, contentValues);
 
+        db.close();
+
         if(result == -1){
             return false;
         } else {
             return true;
         }
-
     }
 
-    public Cursor showData(){
+    public boolean addFlightData(String deptature, String arrival, String numTickets){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + USER_TABLE, null);
-        return data;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ColsFlight.DEPARTURE, deptature );
+        contentValues.put(ColsFlight.ARRIVAL, arrival );
+        contentValues.put(ColsFlight.CAPACITY, numTickets );
+
+        long result = db.insert(FLIGHT_TABLE, null, contentValues);
+
+        db.close();
+
+        if(result == -1){
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    public Integer deleteData(String id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(USER_TABLE, "ID = ?", new String[] {id});
-    }
+//    public Cursor showData(){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor data = db.rawQuery("SELECT * FROM " + USER_TABLE, null);
+//        return data;
+//    }
+//
+//    public Integer deleteData(String id){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        return db.delete(USER_TABLE, "ID = ?", new String[] {id});
+//    }
 
 }

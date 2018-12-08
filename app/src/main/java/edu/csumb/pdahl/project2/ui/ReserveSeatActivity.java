@@ -6,31 +6,64 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
 
 public class ReserveSeatActivity extends AppCompatActivity {
 
-    Button reserveSeat;
-    private Spinner spinner;
-    private static final String[] paths = {"1", "2", "3", "4", "5", "6", "7"};
+    DatabaseHelper flightDB;
 
+    Button reserveSeat;
+
+    EditText deptatureCity;
+    EditText arrivalCity;
+    EditText numTickets;
+
+    String deptCityInput;
+    String arrCityInput;
+    String numOfTicketInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_seat);
 
-        Button reserveTicketBtn = (Button) findViewById(R.id.button_reserve_ticket);
-        reserveTicketBtn.setOnClickListener(new View.OnClickListener() {
+
+        flightDB = new DatabaseHelper(this);
+
+        reserveSeat = (Button) findViewById(R.id.button_reserve_ticket);
+        deptatureCity = (EditText) findViewById(R.id.textEdit_depature);
+        arrivalCity = (EditText) findViewById(R.id.textEdit_arrival);
+        numTickets = (EditText) findViewById(R.id.editText_numTicket);
+
+
+        reserveSeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSelectFlight("Los Angeles", "Monterey", 5);
+//                openSelectFlight(deptCityInput, arrCityInput, Integer.parseInt(numOfTicketInput));
+                AddData();
             }
         });
 
 
+    }
+
+    public void AddData() {
+        deptCityInput = deptatureCity.getText().toString();
+        arrCityInput = arrivalCity.getText().toString();
+        numOfTicketInput = numTickets.getText().toString();
+
+        boolean insertData = flightDB.addFlightData(deptCityInput, arrCityInput, numOfTicketInput);
+
+        if (insertData == true) {
+            Toast.makeText(ReserveSeatActivity.this, "Flight Data Available!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(ReserveSeatActivity.this, "No Flight data!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void openSelectFlight(String departureCity, String arrivalCity, int capacity){
@@ -41,4 +74,9 @@ public class ReserveSeatActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
+
+
+
 }

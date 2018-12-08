@@ -28,4 +28,5 @@
     </string>
     <string name="available_flights">Available Flights</string>
     <string name="successMessage">The Account Was Created Successfully</string>
+    <string name="textView_title">Add Flights</string>
 </resources>

@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/depature"
+        android:id="@+id/textEdit_depature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/seatTitle"
@@ -47,10 +47,10 @@
         app:layout_constraintTop_toBottomOf="@+id/seatTitle" />
 
     <EditText
-        android:id="@+id/arrival"
+        android:id="@+id/textEdit_arrival"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/depature"
+        android:layout_below="@+id/textEdit_depature"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
@@ -66,13 +66,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/depature" />
+        app:layout_constraintTop_toBottomOf="@+id/textEdit_depature" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/editText_numTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/arrival"
+        android:layout_below="@+id/textEdit_arrival"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
@@ -86,7 +86,7 @@
         android:text="Number of Adult(s):"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/arrival" />
+        app:layout_constraintTop_toBottomOf="@+id/textEdit_arrival" />
 
     <Button
         android:id="@+id/button_reserve_ticket"
@@ -111,7 +111,7 @@
         android:id="@+id/editText3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText4"
+        android:layout_below="@+id/editText_numTicket"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"

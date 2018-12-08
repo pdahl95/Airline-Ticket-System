@@ -44,7 +44,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateData();
-                ViewData();
+//                ViewData();
             }
         });
 
@@ -108,36 +108,37 @@ public class CreateAccountActivity extends AppCompatActivity {
         }
     }
 
-    public void ViewData(){
-        Cursor data = userDB.showData();
+//    public void ViewData(){
+//        Cursor data = userDB.showData();
+//
+//        if (data.getCount() == 0) {
+//            display("Error", "No Data In Database.");
+//            return;
+//        }
+//        StringBuffer buffer = new StringBuffer();
+//        while (data.moveToNext()) {
+//            buffer.append("ID: " + data.getString(0) + "\n");
+//            buffer.append("Username: " + data.getString(1) + "\n");
+//            buffer.append("Password: " + data.getString(2) + "\n");
+//
+//            display("All Stored Data:", buffer.toString());
+//        }
+//
+////        data.close();
+//    }
 
-        if (data.getCount() == 0) {
-            display("Error", "No Data In Database.");
-            return;
-        }
-        StringBuffer buffer = new StringBuffer();
-        while (data.moveToNext()) {
-            buffer.append("ID: " + data.getString(0) + "\n");
-            buffer.append("Username: " + data.getString(1) + "\n");
-            buffer.append("Password: " + data.getString(2) + "\n");
-
-            display("All Stored Data:", buffer.toString());
-        }
-
-    }
-
-    public void display(String title, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.show();
-    }
+//    public void display(String title, String message){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setCancelable(true);
+//        builder.setTitle(title);
+//        builder.setMessage(message);
+//        builder.show();
+//    }
 
 
-    void goBackToMainActivity() {
-        Intent intent = new Intent(this, AirlineTicket.class);
-        startActivity(intent);
-    }
+//    void goBackToMainActivity() {
+//        Intent intent = new Intent(this, AirlineTicket.class);
+//        startActivity(intent);
+//    }
 
 }
