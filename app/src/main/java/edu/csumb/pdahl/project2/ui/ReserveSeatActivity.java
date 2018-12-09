@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
@@ -19,7 +17,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
     Button reserveSeat;
 
-    EditText deptatureCity;
+    EditText departureCity;
     EditText arrivalCity;
     EditText numTickets;
 
@@ -36,15 +34,15 @@ public class ReserveSeatActivity extends AppCompatActivity {
         flightDB = new DatabaseHelper(this);
 
         reserveSeat = (Button) findViewById(R.id.button_reserve_ticket);
-        deptatureCity = (EditText) findViewById(R.id.textEdit_depature);
+        departureCity = (EditText) findViewById(R.id.textEdit_depature);
         arrivalCity = (EditText) findViewById(R.id.textEdit_arrival);
-        numTickets = (EditText) findViewById(R.id.editText_numTicket);
+        numTickets = (EditText) findViewById(R.id.editText_num);
 
 
         reserveSeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                openSelectFlight(deptCityInput, arrCityInput, Integer.parseInt(numOfTicketInput));
+                openSelectFlight("Montery", "LA", 5);
                 AddData();
             }
         });
@@ -53,16 +51,16 @@ public class ReserveSeatActivity extends AppCompatActivity {
     }
 
     public void AddData() {
-        deptCityInput = deptatureCity.getText().toString();
+        deptCityInput = departureCity.getText().toString();
         arrCityInput = arrivalCity.getText().toString();
         numOfTicketInput = numTickets.getText().toString();
 
         boolean insertData = flightDB.addFlightData(deptCityInput, arrCityInput, numOfTicketInput);
 
         if (insertData == true) {
-            Toast.makeText(ReserveSeatActivity.this, "Flight Data Available!", Toast.LENGTH_LONG).show();
+            Toast.makeText(ReserveSeatActivity.this, "Flight Data Available!", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(ReserveSeatActivity.this, "No Flight data!", Toast.LENGTH_LONG).show();
+            Toast.makeText(ReserveSeatActivity.this, "No Flight data!", Toast.LENGTH_SHORT).show();
         }
     }
 

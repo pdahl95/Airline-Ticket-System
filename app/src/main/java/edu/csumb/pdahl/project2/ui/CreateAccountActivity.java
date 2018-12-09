@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
+import edu.csumb.pdahl.project2.model.User;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -107,6 +108,9 @@ public class CreateAccountActivity extends AppCompatActivity {
             Toast.makeText(CreateAccountActivity.this, "Account Not Created!", Toast.LENGTH_LONG).show();
         }
     }
+
+
+
 
 //    public void ViewData(){
 //        Cursor data = userDB.showData();

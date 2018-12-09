@@ -8,12 +8,14 @@
     <TextView
         android:id="@+id/seatTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="174dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
         android:background="@drawable/plannnne"
         android:padding="50dp"
         android:text="@string/seatTitle"
@@ -33,18 +35,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginRight="70dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginRight="72dp"
         android:ems="10"
-        android:hint="Enter Depature City"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seatTitle" />
+        android:hint="Enter Departure City"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/textEdit_arrival"
@@ -56,19 +54,16 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginStart="70dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="71dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="70dp"
-        android:layout_marginRight="70dp"
+        android:layout_marginRight="69dp"
         android:ems="10"
         android:hint="Enter Arrival City"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textEdit_depature" />
+        />
 
-    <EditText
+    <TextView
         android:id="@+id/editText_numTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,14 +74,13 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="70dp"
         android:layout_marginLeft="55dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="70dp"
         android:layout_marginRight="97dp"
         android:ems="10"
+        android:textSize="18sp"
         android:text="Number of Adult(s):"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textEdit_arrival" />
+        />
 
     <Button
         android:id="@+id/button_reserve_ticket"
@@ -108,7 +102,7 @@
         android:textColor="@android:color/white" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editText_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_numTicket"
@@ -118,7 +112,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="70dp"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="70dp"
         android:layout_marginRight="70dp"
         android:gravity="center"
