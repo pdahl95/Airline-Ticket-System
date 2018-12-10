@@ -77,6 +77,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createUserFlightTable = "CREATE TABLE " + USERFLIGHT_TABLE + "("
                 + ColsUserFlight.FLIGHTID + ", "
                 + ColsUserFlight.USERID + ", "
+                + ColsUserFlight.RESERVATIONID + ", "
+                + ColsUserFlight.TICKETS_COUNT + ", "
                 + "PRIMARY KEY ("
                 + ColsUserFlight.FLIGHTID + ","
                 + ColsUserFlight.USERID + ")"
@@ -94,11 +96,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addUserFlightData(String userId, String flightId) {
+    public boolean addUserFlightData(String userId, String flightId, String reservationId, String ticketCount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ColsUserFlight.FLIGHTID, flightId);
         contentValues.put(ColsUserFlight.USERID, userId);
+        contentValues.put(ColsUserFlight.RESERVATIONID, reservationId);
+        contentValues.put(ColsUserFlight.TICKETS_COUNT, ticketCount);
 
         long res = db.insert(USERFLIGHT_TABLE, null, contentValues);
         db.close();
@@ -193,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             Flight flight = createFlightObject(cursor);
             int reservationsCount = getReservationsCount(flight.getFlightId());
-            if (noTickets < Integer.valueOf(flight.getCapacity()) - reservationsCount) {
+            if (noTickets <= Integer.valueOf(flight.getCapacity()) - reservationsCount) {
                 flights.add(flight);
             }
         }
@@ -209,8 +213,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int count = 0;
 
         while (cursor.moveToNext()) {
-            // TODO plus how many tickets are reserved
-            count++;
+            count += Integer.parseInt(cursor.getString(3));
         }
 
         cursor.close();

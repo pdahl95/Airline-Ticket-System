@@ -1,7 +1,6 @@
 package edu.csumb.pdahl.project2.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -20,18 +19,17 @@ import java.util.List;
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
 import edu.csumb.pdahl.project2.model.Flight;
-import edu.csumb.pdahl.project2.model.User;
 
 public class SelectFlightActivity extends AppCompatActivity {
 
     public static final int LOGIN_REQUEST = 1;
     public static final String ARG_DEPARTURE_CITY = "arg_departure_city";
     public static final String ARG_ARRIVAL_CITY = "arg_arrival_city";
-    public static final String ARG_CAPACITY = "arg_capacity";
+    public static final String ARG_TICKET_COUNT = "arg_ticket_count";
 
     private List<Flight> flights;
     private RadioGroup flightsRadioGroup;
-    private String capacity;
+    private String ticketCount;
     private DatabaseHelper db;
 
     @Override
@@ -42,10 +40,10 @@ public class SelectFlightActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String departureCity = intent.getStringExtra(ARG_DEPARTURE_CITY);
         String arrivalCity = intent.getStringExtra(ARG_ARRIVAL_CITY);
-        capacity = intent.getStringExtra(ARG_CAPACITY);
+        ticketCount = intent.getStringExtra(ARG_TICKET_COUNT);
 
         db = DatabaseHelper.getInstance(getApplicationContext());
-        flights = db.getFlights(departureCity, arrivalCity, Integer.valueOf(capacity));
+        flights = db.getFlights(departureCity, arrivalCity, Integer.valueOf(ticketCount));
 
         flightsRadioGroup = findViewById(R.id.radioGroup_flights);
         for (Flight flight : flights) {
@@ -55,7 +53,7 @@ public class SelectFlightActivity extends AppCompatActivity {
             flightsRadioGroup.addView(radioButton);
         }
 
-        Log.d("Angel", "departure " + departureCity + "- arrival " + arrivalCity + "- capacity " + capacity);
+        Log.d("Angel", "departure " + departureCity + "- arrival " + arrivalCity + "- ticketCount " + ticketCount);
 
         Button selectFlight = (Button) findViewById(R.id.button_select_ticket);
         selectFlight.setOnClickListener(new View.OnClickListener() {
@@ -94,25 +92,26 @@ public class SelectFlightActivity extends AppCompatActivity {
             return;
         }
 
+        final String reservationId = String.valueOf(System.currentTimeMillis());
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Confirm Reservation");
         alert.setMessage("- Username:" + username
             + "\n-Flight number:" + selectedFlight.getFlightNumber()
             + "\n-Departure: " + selectedFlight.getDepartureCity() + ", " + selectedFlight.getDepartureTime()
             + "\n-Arrival: " + selectedFlight.getArrivalCity()
-            + "\nNumber of tickets: " + capacity
+            + "\nNumber of tickets: " + ticketCount
+            + "\nReservation id: " + reservationId
             + "\nTotal amount: " + selectedFlight.getPrice());
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // clicked Confirm --> Go back to Main Menu
-                // TODO add reservation id (can use System.currentTimeMillis())
-                boolean result = db.addUserFlightData(userId, selectedFlight.getFlightId());
+                boolean result = db.addUserFlightData(userId, selectedFlight.getFlightId(), reservationId, ticketCount);
                 if (result) {
                     Toast.makeText(SelectFlightActivity.this, "Reservation success!", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(SelectFlightActivity.this, "Error saving reservation.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectFlightActivity.this, "Reservation already exists.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

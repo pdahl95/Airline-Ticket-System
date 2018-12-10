@@ -63,7 +63,7 @@ public class AirlineTicket extends AppCompatActivity {
 //        boolean res = db.addFlightData(new Flight(
 //                "-1",
 //                "Otter101",
-//                "Monterey",
+//                "SF",
 //                "LA",
 //                "10:00AM",
 //                "10",
@@ -73,7 +73,7 @@ public class AirlineTicket extends AppCompatActivity {
 //        db.addFlightData(new Flight(
 //                "-1",
 //                "Otter102",
-//                "Monterey",
+//                "SF",
 //                "LA",
 //                "12:00AM",
 //                "3",
@@ -82,7 +82,7 @@ public class AirlineTicket extends AppCompatActivity {
 //        db.addFlightData(new Flight(
 //                "-1",
 //                "Otter103",
-//                "Monterey",
+//                "SF",
 //                "LA",
 //                "4:00AM",
 //                "10",

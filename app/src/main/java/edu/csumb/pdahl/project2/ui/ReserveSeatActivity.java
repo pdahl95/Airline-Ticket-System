@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
@@ -68,7 +67,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SelectFlightActivity.class);
         intent.putExtra(SelectFlightActivity.ARG_DEPARTURE_CITY, departureCity);
         intent.putExtra(SelectFlightActivity.ARG_ARRIVAL_CITY, arrivalCity);
-        intent.putExtra(SelectFlightActivity.ARG_CAPACITY, capacity);
+        intent.putExtra(SelectFlightActivity.ARG_TICKET_COUNT, capacity);
         startActivity(intent);
         finish();
     }
