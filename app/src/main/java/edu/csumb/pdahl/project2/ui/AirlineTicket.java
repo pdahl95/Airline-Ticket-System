@@ -120,7 +120,7 @@ public class AirlineTicket extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE_CANCEL_RESERVATION) {
-            // do logic depent of the result
+            // do logic dependent of the result
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     String userId = data.getStringExtra(LoginActivity.KEY_USERID);

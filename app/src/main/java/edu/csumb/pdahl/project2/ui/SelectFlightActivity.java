@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -32,26 +33,47 @@ public class SelectFlightActivity extends AppCompatActivity {
     private String ticketCount;
     private DatabaseHelper db;
 
+    String departureCity;
+    String arrivalCity;
+
+    TextView textView_depatureCity;
+    TextView textview_arrivalCity;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_flight);
 
+        textView_depatureCity = (TextView) findViewById(R.id.textView_show_dept);
+        textview_arrivalCity = (TextView) findViewById(R.id.textView_show_arr);
+
         Intent intent = getIntent();
-        String departureCity = intent.getStringExtra(ARG_DEPARTURE_CITY);
-        String arrivalCity = intent.getStringExtra(ARG_ARRIVAL_CITY);
+        departureCity = intent.getStringExtra(ARG_DEPARTURE_CITY);
+        arrivalCity = intent.getStringExtra(ARG_ARRIVAL_CITY);
         ticketCount = intent.getStringExtra(ARG_TICKET_COUNT);
 
         db = DatabaseHelper.getInstance(getApplicationContext());
         flights = db.getFlights(departureCity, arrivalCity, Integer.valueOf(ticketCount));
 
+
         flightsRadioGroup = findViewById(R.id.radioGroup_flights);
         for (Flight flight : flights) {
             RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(flight.getFlightNumber() + " - " + flight.getDepartureTime() + " - " + flight.getCapacity() + " - $" + flight.getPrice());
+            radioButton.setText("Flight Number: " + flight.getFlightNumber()
+                                + "\nDeparture at "
+                                + flight.getDepartureTime()
+                                + "\nAvailable Seats - "
+                                + flight.getCapacity()
+                                + "\nPrice $"
+                                + flight.getPrice()
+                                + "\n");
+
             radioButton.setId(Integer.parseInt(flight.getFlightId()));
             flightsRadioGroup.addView(radioButton);
         }
+        textView_depatureCity.setText(departureCity);
+        textview_arrivalCity.setText(arrivalCity);
 
         Log.d("Angel", "departure " + departureCity + "- arrival " + arrivalCity + "- ticketCount " + ticketCount);
 
@@ -81,7 +103,6 @@ public class SelectFlightActivity extends AppCompatActivity {
 
     public void openLogInActivity(){
         // TODO check that radio button is selected
-
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, LOGIN_REQUEST);
     }
@@ -91,14 +112,16 @@ public class SelectFlightActivity extends AppCompatActivity {
         if (selectedFlight == null) {
             return;
         }
+        textView_depatureCity.setText(departureCity);
+        textview_arrivalCity.setText(arrivalCity);
 
         final String reservationId = String.valueOf(System.currentTimeMillis());
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Confirm Reservation");
-        alert.setMessage("- Username:" + username
-            + "\n-Flight number:" + selectedFlight.getFlightNumber()
-            + "\n-Departure: " + selectedFlight.getDepartureCity() + ", " + selectedFlight.getDepartureTime()
-            + "\n-Arrival: " + selectedFlight.getArrivalCity()
+        alert.setMessage("Username: " + username
+            + "\nFlight number: " + selectedFlight.getFlightNumber()
+            + "\nDeparture: " + selectedFlight.getDepartureCity() + ", " + selectedFlight.getDepartureTime()
+            + "\nArrival: " + selectedFlight.getArrivalCity()
             + "\nNumber of tickets: " + ticketCount
             + "\nReservation id: " + reservationId
             + "\nTotal amount: " + selectedFlight.getPrice());

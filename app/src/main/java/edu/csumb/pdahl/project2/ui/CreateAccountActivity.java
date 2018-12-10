@@ -127,9 +127,11 @@ public class CreateAccountActivity extends AppCompatActivity {
         User test = userDB.getUserData(userNameInput, passWordInput);
         if(test == null) {
             Toast.makeText(CreateAccountActivity.this, "User does not exist!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(CreateAccountActivity.this, "User exist", Toast.LENGTH_SHORT).show();
         }
+//        else {
+//            Toast.makeText(CreateAccountActivity.this, "", Toast.LENGTH_SHORT).show();
+//        }
+        finish();
     }
 
 

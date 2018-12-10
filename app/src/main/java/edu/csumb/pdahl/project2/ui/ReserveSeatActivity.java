@@ -29,14 +29,12 @@ public class ReserveSeatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_seat);
 
-
         flightDB = DatabaseHelper.getInstance(getApplicationContext());
 
         reserveSeat = (Button) findViewById(R.id.button_reserve_ticket);
         departureCity = (EditText) findViewById(R.id.textEdit_depature);
         arrivalCity = (EditText) findViewById(R.id.textEdit_arrival);
         numTickets = (EditText) findViewById(R.id.editText_num);
-
 
         reserveSeat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,13 +52,6 @@ public class ReserveSeatActivity extends AppCompatActivity {
         arrCityInput = arrivalCity.getText().toString();
         numOfTicketInput = numTickets.getText().toString();
 
-//        boolean insertData = flightDB.addFlightData(deptCityInput, arrCityInput, numOfTicketInput);
-//
-//        if (insertData == true) {
-//            Toast.makeText(ReserveSeatActivity.this, "Flight Data Available!", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(ReserveSeatActivity.this, "No Flight data!", Toast.LENGTH_SHORT).show();
-//        }
     }
 
     public void openSelectFlight(String departureCity, String arrivalCity, String capacity){
