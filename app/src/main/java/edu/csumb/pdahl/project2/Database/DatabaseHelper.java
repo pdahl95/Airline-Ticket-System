@@ -41,6 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final class ColsUserFlight {
         public static final String FLIGHTID = "flight_id";
         public static final String USERID = "user_id";
+        public static final String RESERVATIONID = "reservation_id";
+        public static final String TICKETS_COUNT = "tickets_count";
     }
 
     private static DatabaseHelper INSTANCE;
@@ -207,6 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int count = 0;
 
         while (cursor.moveToNext()) {
+            // TODO plus how many tickets are reserved
             count++;
         }
 

@@ -17,6 +17,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final int LOGIN_REQUEST = 1;
     public static final String KEY_USERID = "key_user_id";
+    public static final String KEY_USER_NAME = "key_user_name";
     DatabaseHelper userDB;
     Button loginBtn;
     EditText userName;
@@ -46,10 +47,12 @@ public class LoginActivity extends AppCompatActivity {
                 User user = userDB.getUserData(userNameInput, passWordInput);
                 if(user == null) {
                     Toast.makeText(LoginActivity.this, "User does not exist!", Toast.LENGTH_SHORT).show();
+                    // TODO 2 failures if not finish
                 } else {
                     Toast.makeText(LoginActivity.this, "User exist", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.putExtra(KEY_USERID, user.getUserId());
+                    intent.putExtra(KEY_USER_NAME, user.getUserName());
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }

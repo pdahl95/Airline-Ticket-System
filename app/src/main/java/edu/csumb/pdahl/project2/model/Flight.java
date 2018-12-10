@@ -1,9 +1,5 @@
 package edu.csumb.pdahl.project2.model;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 public class Flight {
     private String flightId;
     private String flightNumber;
