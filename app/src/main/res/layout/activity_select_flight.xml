@@ -34,8 +34,10 @@
         android:layout_marginRight="16dp">
 
         <RadioGroup
+            android:id="@+id/radioGroup_flights"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             />
 
 

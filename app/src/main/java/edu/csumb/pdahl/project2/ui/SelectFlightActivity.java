@@ -9,8 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import java.util.List;
+
+import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
+import edu.csumb.pdahl.project2.model.Flight;
 
 public class SelectFlightActivity extends AppCompatActivity {
 
@@ -21,7 +27,7 @@ public class SelectFlightActivity extends AppCompatActivity {
 
     private String departureCity;
     private String arrivalCity;
-    private int capacity;
+    private String capacity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,17 @@ public class SelectFlightActivity extends AppCompatActivity {
         Intent intent = getIntent();
         departureCity = intent.getStringExtra(ARG_DEPARTURE_CITY);
         arrivalCity = intent.getStringExtra(ARG_ARRIVAL_CITY);
-        capacity = intent.getIntExtra(ARG_CAPACITY, -1);
+        capacity = intent.getStringExtra(ARG_CAPACITY);
+
+        DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
+        List<Flight> flights = db.getFlights(departureCity, arrivalCity, Integer.valueOf(capacity));
+
+        RadioGroup flightsRadioGroup = findViewById(R.id.radioGroup_flights);
+        for (Flight flight : flights) {
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(flight.getFlightNumber() + " - " + flight.getDepartureTime() + " - " + flight.getCapacity() + " - $" + flight.getPrice());
+            flightsRadioGroup.addView(radioButton);
+        }
 
         Log.d("Angel", "departure " + departureCity + "- arrival " + arrivalCity + "- capacity " + capacity);
 

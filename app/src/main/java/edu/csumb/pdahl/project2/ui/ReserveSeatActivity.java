@@ -42,7 +42,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
         reserveSeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSelectFlight("Montery", "LA", 5);
+                openSelectFlight(departureCity.getText().toString(), arrivalCity.getText().toString(), numTickets.getText().toString());
                 AddData();
             }
         });
@@ -55,16 +55,16 @@ public class ReserveSeatActivity extends AppCompatActivity {
         arrCityInput = arrivalCity.getText().toString();
         numOfTicketInput = numTickets.getText().toString();
 
-        boolean insertData = flightDB.addFlightData(deptCityInput, arrCityInput, numOfTicketInput);
-
-        if (insertData == true) {
-            Toast.makeText(ReserveSeatActivity.this, "Flight Data Available!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(ReserveSeatActivity.this, "No Flight data!", Toast.LENGTH_SHORT).show();
-        }
+//        boolean insertData = flightDB.addFlightData(deptCityInput, arrCityInput, numOfTicketInput);
+//
+//        if (insertData == true) {
+//            Toast.makeText(ReserveSeatActivity.this, "Flight Data Available!", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(ReserveSeatActivity.this, "No Flight data!", Toast.LENGTH_SHORT).show();
+//        }
     }
 
-    public void openSelectFlight(String departureCity, String arrivalCity, int capacity){
+    public void openSelectFlight(String departureCity, String arrivalCity, String capacity){
         Intent intent = new Intent(this, SelectFlightActivity.class);
         intent.putExtra(SelectFlightActivity.ARG_DEPARTURE_CITY, departureCity);
         intent.putExtra(SelectFlightActivity.ARG_ARRIVAL_CITY, arrivalCity);
@@ -72,9 +72,4 @@ public class ReserveSeatActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-
-
-
-
 }

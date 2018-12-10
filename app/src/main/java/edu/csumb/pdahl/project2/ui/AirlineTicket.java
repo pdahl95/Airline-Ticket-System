@@ -8,8 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
+import edu.csumb.pdahl.project2.model.Flight;
+import edu.csumb.pdahl.project2.model.Log;
 
 public class AirlineTicket extends AppCompatActivity {
 
@@ -54,6 +58,40 @@ public class AirlineTicket extends AppCompatActivity {
                 openManageSystem();
             }
         });
+
+//        DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
+//        boolean res = db.addFlightData(new Flight(
+//                "-1",
+//                "Otter101",
+//                "Monterey",
+//                "LA",
+//                "10:00AM",
+//                "10",
+//                "50.00"
+//        ));
+//
+//        db.addFlightData(new Flight(
+//                "-1",
+//                "Otter102",
+//                "Monterey",
+//                "LA",
+//                "12:00AM",
+//                "3",
+//                "50.00"
+//        ));
+//        db.addFlightData(new Flight(
+//                "-1",
+//                "Otter103",
+//                "Monterey",
+//                "LA",
+//                "4:00AM",
+//                "10",
+//                "50.00"
+//        ));
+//
+//        List<Flight> flights = db.getFlights("", "", Integer.valueOf("12"));
+//
+//        int x = 0;
 
     }
 

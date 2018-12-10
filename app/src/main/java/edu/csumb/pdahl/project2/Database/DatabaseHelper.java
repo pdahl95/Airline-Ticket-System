@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "user.db";
 
     public static final String USER_TABLE = "user_table";
+
     public static final class ColsUser {
         public static final String UUID = "uuid";
         public static final String USERNAME = "user_name";
@@ -24,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static final String FLIGHT_TABLE = "flight_table";
+
     public static final class ColsFlight {
         public static final String UUID = "uuid";
         public static final String FLIGHTNUM = "flight_num";
@@ -34,7 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String PRICE = "price";
     }
 
-    public static final String USERFLIGHT_TABLE = "flight_table";
+    public static final String USERFLIGHT_TABLE = "user_flight_table";
+
     public static final class ColsUserFlight {
         public static final String FLIGHTID = "flight_id";
         public static final String USERID = "user_id";
@@ -89,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addUserFlightData(String userId, String flightId){
+    public boolean addUserFlightData(String userId, String flightId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ColsUserFlight.FLIGHTID, flightId);
@@ -97,10 +100,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long res = db.insert(USERFLIGHT_TABLE, null, contentValues);
         db.close();
-        if(res == -1){
+        if (res == -1) {
             return false;
-        }else {
-            return  true;
+        } else {
+            return true;
         }
     }
 
@@ -147,31 +150,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public List<Flight> getReservationsByUserID(String userId){
+    public List<Flight> getReservationsByUserID(String userId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Flight AS F " +
-                "INNER JOIN UserFlight ON F.flight_id = flight_id " +
-                "WHERE user_id = ?", new String[] {userId});
+        Cursor cursor = db.rawQuery("SELECT * FROM flight_table AS F " +
+                "INNER JOIN user_flight_table ON F.flight_id = flight_id " +
+                "WHERE user_id = ?", new String[]{userId});
 
         List<Flight> listOfFlights = new ArrayList<>();
         Flight flight;
 
         // parse data and crate a flight
-        while(cursor.moveToNext()){
-            String getId = cursor.getString(0);
-            String getFlightNum = cursor.getString(1);
-            String getDeptCity = cursor.getString(2);
-            String getArrCity = cursor.getString(3);
-            String getTimeOfDept = cursor.getString(4);
-            String getCapacity = cursor.getString(5);
-            String getPrice = cursor.getString(6);
-
-            flight = new Flight(getId, getFlightNum, getDeptCity, getArrCity, getTimeOfDept, getCapacity, getPrice);
+        while (cursor.moveToNext()) {
+            flight = createFlightObject(cursor);
 
             listOfFlights.add(flight);
         }
 
         return listOfFlights;
+    }
+
+    private Flight createFlightObject(Cursor cursor) {
+        String getId = cursor.getString(0);
+        String getFlightNum = cursor.getString(1);
+        String getDeptCity = cursor.getString(2);
+        String getArrCity = cursor.getString(3);
+        String getTimeOfDept = cursor.getString(4);
+        String getCapacity = cursor.getString(5);
+        String getPrice = cursor.getString(6);
+
+        return new Flight(getId, getFlightNum, getDeptCity, getArrCity, getTimeOfDept, getCapacity, getPrice);
+    }
+
+    public List<Flight> getFlights(String departureCity, String arrivalCity, int noTickets) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM flight_table AS F " +
+                        "WHERE " + ColsFlight.DEPARTURE + " = ? AND " + ColsFlight.ARRIVAL + " = ?",
+                new String[]{departureCity, arrivalCity});
+
+        List<Flight> flights = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Flight flight = createFlightObject(cursor);
+            int reservationsCount = getReservationsCount(flight.getFlightId());
+            if (noTickets < Integer.valueOf(flight.getCapacity()) - reservationsCount) {
+                flights.add(flight);
+            }
+        }
+
+        return flights;
+    }
+
+    private int getReservationsCount(String flightId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM user_flight_table AS F " +
+                "WHERE flight_id = ?", new String[]{flightId});
+
+        int count = 0;
+
+        while (cursor.moveToNext()) {
+            count++;
+        }
+
+        cursor.close();
+
+        return count;
     }
 
 
@@ -211,12 +252,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean addFlightData(String deptature, String arrival, String numTickets) {
+    public boolean addFlightData(Flight flight) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ColsFlight.DEPARTURE, deptature);
-        contentValues.put(ColsFlight.ARRIVAL, arrival);
-        contentValues.put(ColsFlight.CAPACITY, numTickets);
+        contentValues.put(ColsFlight.DEPARTURE, flight.getDepartureCity());
+        contentValues.put(ColsFlight.ARRIVAL, flight.getArrivalCity());
+        contentValues.put(ColsFlight.CAPACITY, flight.getCapacity());
+        contentValues.put(ColsFlight.FLIGHTNUM, flight.getFlightNumber());
+        contentValues.put(ColsFlight.DEPARTURETIME, flight.getDepartureTime());
+        contentValues.put(ColsFlight.PRICE, flight.getPrice());
 
         long result = db.insert(FLIGHT_TABLE, null, contentValues);
 
