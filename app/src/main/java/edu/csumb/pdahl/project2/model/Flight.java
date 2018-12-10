@@ -5,15 +5,25 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 public class Flight {
-    private int flightId;
+    private String flightId;
     private String flightNumber;
     private String departureCity;
     private String arrivalCity;
-    private long departureTime;
-    private int capacity;
-    private double price;
+    private String departureTime;
+    private String capacity;
+    private String price;
 
-    public int getFlightId() {
+    public Flight(String flightId, String flightNumber, String departureCity, String arrivalCity, String departureTime, String capacity, String price) {
+        this.flightId = flightId;
+        this.flightNumber = flightNumber;
+        this.departureCity = departureCity;
+        this.arrivalCity = arrivalCity;
+        this.departureTime = departureTime;
+        this.capacity = capacity;
+        this.price = price;
+    }
+
+    public String getFlightId() {
         return flightId;
     }
 
@@ -29,20 +39,16 @@ public class Flight {
         return arrivalCity;
     }
 
-    public long getDepartureTime() {
+    public String getDepartureTime() {
         return departureTime;
     }
 
-    public int getCapacity() {
+    public String getCapacity() {
         return capacity;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
-    }
-
-    public void setFlightId(int flightId) {
-        this.flightId = flightId;
     }
 
     public void setFlightNumber(String flightNumber) {
@@ -57,15 +63,5 @@ public class Flight {
         this.arrivalCity = arrivalCity;
     }
 
-    public void setDepartureTime(long departureTime) {
-        this.departureTime = departureTime;
-    }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
 }

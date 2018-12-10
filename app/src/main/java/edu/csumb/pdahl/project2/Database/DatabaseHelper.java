@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.csumb.pdahl.project2.model.Flight;
 import edu.csumb.pdahl.project2.model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -13,7 +17,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "user.db";
 
     public static final String USER_TABLE = "user_table";
-
     public static final class ColsUser {
         public static final String UUID = "uuid";
         public static final String USERNAME = "user_name";
@@ -21,7 +24,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static final String FLIGHT_TABLE = "flight_table";
-
     public static final class ColsFlight {
         public static final String UUID = "uuid";
         public static final String FLIGHTNUM = "flight_num";
@@ -30,6 +32,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String DEPARTURETIME = "departure_time";
         public static final String CAPACITY = "capacity";
         public static final String PRICE = "price";
+    }
+
+    public static final String USERFLIGHT_TABLE = "flight_table";
+    public static final class ColsUserFlight {
+        public static final String FLIGHTID = "flight_id";
+        public static final String USERID = "user_id";
     }
 
     private static DatabaseHelper INSTANCE;
@@ -54,21 +62,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ")";
 
         String createFlightTable = "CREATE TABLE " + FLIGHT_TABLE + "(" + ColsFlight.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ColsFlight.FLIGHTNUM + ","
                 + ColsFlight.DEPARTURE + ", "
                 + ColsFlight.ARRIVAL + ", "
                 + ColsFlight.DEPARTURETIME + ", "
                 + ColsFlight.CAPACITY + ", "
                 + ColsFlight.PRICE
                 + ")";
+        String createUserFlightTable = "CREATE TABLE " + USERFLIGHT_TABLE + "("
+                + ColsUserFlight.FLIGHTID + ", "
+                + ColsUserFlight.USERID + ", "
+                + "PRIMARY KEY ("
+                + ColsUserFlight.FLIGHTID + ","
+                + ColsUserFlight.USERID + ")"
+                + ")";
+
 
         db.execSQL(createUserTable);
         db.execSQL(createFlightTable);
+        db.execSQL(createUserFlightTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
         onCreate(db);
+    }
+
+    public boolean addUserFlightData(String userId, String flightId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ColsUserFlight.FLIGHTID, flightId);
+        contentValues.put(ColsUserFlight.USERID, userId);
+
+        long res = db.insert(USERFLIGHT_TABLE, null, contentValues);
+        db.close();
+        if(res == -1){
+            return false;
+        }else {
+            return  true;
+        }
     }
 
 
@@ -113,6 +146,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
+
+    public List<Flight> getReservationsByUserID(String userId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Flight AS F " +
+                "INNER JOIN UserFlight ON F.flight_id = flight_id " +
+                "WHERE user_id = ?", new String[] {userId});
+
+        List<Flight> listOfFlights = new ArrayList<>();
+        Flight flight;
+
+        // parse data and crate a flight
+        while(cursor.moveToNext()){
+            String getId = cursor.getString(0);
+            String getFlightNum = cursor.getString(1);
+            String getDeptCity = cursor.getString(2);
+            String getArrCity = cursor.getString(3);
+            String getTimeOfDept = cursor.getString(4);
+            String getCapacity = cursor.getString(5);
+            String getPrice = cursor.getString(6);
+
+            flight = new Flight(getId, getFlightNum, getDeptCity, getArrCity, getTimeOfDept, getCapacity, getPrice);
+
+            listOfFlights.add(flight);
+        }
+
+        return listOfFlights;
+    }
+
 
     //    public void ViewData(){
 //        Cursor data = userDB.showData();
@@ -167,6 +228,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
 
 //    public Cursor showData(){
 //        SQLiteDatabase db = this.getWritableDatabase();
