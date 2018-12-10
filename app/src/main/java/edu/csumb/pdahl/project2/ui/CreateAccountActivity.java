@@ -26,6 +26,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     String userNameInput;
     String passWordInput;
+    int counter = 0;
 
 
     @Override
@@ -33,7 +34,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createaccount);
 
-        userDB = new DatabaseHelper(this);
+        userDB = DatabaseHelper.getInstance(getApplicationContext());
 
         userName = (EditText) findViewById(R.id.editText_userName);
         passWord = (EditText) findViewById(R.id.editText_password);
@@ -91,9 +92,24 @@ public class CreateAccountActivity extends AppCompatActivity {
         if (usernameIsValid == true && passwordIsValid == true) {
             AddData();
         } else {
+            counter++;
             Toast.makeText(CreateAccountActivity.this, "Invalid Username or Password!", Toast.LENGTH_LONG).show();
-
+            if(counter == 2){ // user failed twice for log in...
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Failed Login");
+                alert.setMessage("Please Confirm the failed login!");
+                alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // clicked Confirm --> Go back to Main Menu
+                        finish();
+                    }
+                });
+                alert.create().show();
+            }
         }
+
+
     }
 
     public void AddData() {
@@ -106,6 +122,13 @@ public class CreateAccountActivity extends AppCompatActivity {
             Toast.makeText(CreateAccountActivity.this, "Account Created Successfully!", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(CreateAccountActivity.this, "Account Not Created!", Toast.LENGTH_LONG).show();
+        }
+
+        User test = userDB.getUserData(userNameInput, passWordInput);
+        if(test == null) {
+            Toast.makeText(CreateAccountActivity.this, "User does not exist!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(CreateAccountActivity.this, "User exist", Toast.LENGTH_SHORT).show();
         }
     }
 

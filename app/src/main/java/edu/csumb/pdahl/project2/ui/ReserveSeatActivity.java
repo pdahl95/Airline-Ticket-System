@@ -31,7 +31,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reserve_seat);
 
 
-        flightDB = new DatabaseHelper(this);
+        flightDB = DatabaseHelper.getInstance(getApplicationContext());
 
         reserveSeat = (Button) findViewById(R.id.button_reserve_ticket);
         departureCity = (EditText) findViewById(R.id.textEdit_depature);

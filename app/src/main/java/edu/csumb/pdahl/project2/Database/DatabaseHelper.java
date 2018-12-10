@@ -32,8 +32,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String PRICE = "price";
     }
 
+    private static DatabaseHelper INSTANCE;
 
-    public DatabaseHelper(Context context) {
+    public static DatabaseHelper getInstance(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new DatabaseHelper(context);
+        }
+
+        return INSTANCE;
+    }
+
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
@@ -89,10 +98,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor userCursor = queryDB(USER_TABLE, whereClause, whereArgs);
 
         // the database is empty!
-        if (userCursor.getCount() == 0) {
+        if (userCursor.getCount() <= 0) {
             return null;
         }
 
+        userCursor.moveToFirst();
         String getId = userCursor.getString(0);
         String getUserName = userCursor.getString(1);
         String getPassWord = userCursor.getString(2);
@@ -123,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 ////        data.close();
 //    }
     // give access to the rows of a table (can use it for any table)
-    protected Cursor queryDB(String tableName, String whereClause, String[] whereArgs) {
+    private Cursor queryDB(String tableName, String whereClause, String[] whereArgs) {
         SQLiteDatabase db = this.getWritableDatabase();
         try {
             return db.query(

@@ -4,18 +4,11 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
 public class Flight {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "flight_id")
     private int flightId;
-    @ColumnInfo(name = "flight_number")
     private String flightNumber;
-    @ColumnInfo(name = "departure_city")
     private String departureCity;
-    @ColumnInfo(name = "arrival_city")
     private String arrivalCity;
-    @ColumnInfo(name = "departure_time")
     private long departureTime;
     private int capacity;
     private double price;
