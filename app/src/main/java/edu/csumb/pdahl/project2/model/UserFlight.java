@@ -9,6 +9,11 @@ public class UserFlight {
 
     private int userId;
     private int flightId;
+    private int reservationId;
+
+    public int getReservationId() {
+        return reservationId;
+    }
 
     public int getUserId() {
         return userId;

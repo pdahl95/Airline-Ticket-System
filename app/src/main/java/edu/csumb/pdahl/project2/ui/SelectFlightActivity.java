@@ -98,7 +98,6 @@ public class SelectFlightActivity extends AppCompatActivity {
                 finish();
             }
         }
-
     }
 
     public void openLogInActivity(){
@@ -123,7 +122,7 @@ public class SelectFlightActivity extends AppCompatActivity {
             + "\nDeparture: " + selectedFlight.getDepartureCity() + ", " + selectedFlight.getDepartureTime()
             + "\nArrival: " + selectedFlight.getArrivalCity()
             + "\nNumber of tickets: " + ticketCount
-            + "\nReservation id: " + reservationId
+            + "\nReservation Number: " + reservationId
             + "\nTotal amount: " + selectedFlight.getPrice()); // TODO- if more then 1 ticket booked must give the amount for all ticketcount!!
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
@@ -148,17 +147,26 @@ public class SelectFlightActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // clicked ok, then user should be able to reenter to serve a seat!
-                        finish();
+//                        finish();
+                        AlertDialog.Builder alert = new AlertDialog.Builder(SelectFlightActivity.this);
+                        alert.setTitle("Error!");
+                        alert.setMessage("Reservation was not completed! Please Confirm!");
+                        alert.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                        alert.create().show();
                     }
                 });
                 alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        finish();
+
                     }
                 });
                 alert.create().show();
-//                finish();
             }
         });
         alert.setCancelable(false);

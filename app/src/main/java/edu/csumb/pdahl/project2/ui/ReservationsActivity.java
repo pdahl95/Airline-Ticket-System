@@ -41,15 +41,13 @@ public class ReservationsActivity extends AppCompatActivity {
         for (Flight flight : flights) {
             RadioButton radioButton = new RadioButton(this);
 //            Log.d("angel", flight.getFlightId());
-            radioButton.setText("Reservation Id: " + flight.getFlightId()
+            radioButton.setText("Reservation Number: " + flight.getFlightId() // TODO NEED TO GET THE RESERVATIONS NUMBER!!!
                     + "\nFlight Number: " + flight.getFlightNumber()
                     + "\nDeparture at "
                     + flight.getDepartureTime()
                     + "\nAvailable Seats - "
                     + flight.getCapacity()
-                    + "\nPrice $"
-                    + flight.getPrice()
-                    + "\n");
+                    );
             radioButton.setId(Integer.parseInt(flight.getFlightId()));
             displayReservationRadioGroup.addView(radioButton);
         }
@@ -57,15 +55,54 @@ public class ReservationsActivity extends AppCompatActivity {
         cancelReservationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = displayReservationRadioGroup.getCheckedRadioButtonId();
+                final int id = displayReservationRadioGroup.getCheckedRadioButtonId();
                 if (id < 0) {
-                    Toast.makeText(ReservationsActivity.this, "No flight selected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReservationsActivity.this, "No Reservations information!", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ReservationsActivity.this);
+                    alert.setTitle("No Information");
+                    alert.setMessage("There is no record of reservations!");
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // clicked ok, then user should be able to reenter to serve a seat!
+                            finish();
+                        }
+                    });
+                    alert.create().show();
+
                 } else {
-                    RadioButton canceledFlight = (RadioButton) findViewById(id);
-                    String[] parts = canceledFlight.getText().toString().split("\n");
-                    int selectedFlight = Integer.parseInt(parts[0].split("(?<=\\D)(?=\\d)")[1]);
-                    boolean deleted = db.deleteFlightForUser(userIdArg, String.valueOf(selectedFlight));
-                    Toast.makeText(ReservationsActivity.this, deleted ? "deleted" : "not deleted", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ReservationsActivity.this);
+                    alert.setTitle("Confirm Cancellation");
+                    alert.setMessage("Are you sure you want to cancel this reservation?");
+                    alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // clicked ok, then user should be able to reenter to serve a seat!
+                            RadioButton canceledFlight = (RadioButton) findViewById(id);
+                            String[] parts = canceledFlight.getText().toString().split("\n");
+                            int selectedFlight = Integer.parseInt(parts[0].split("(?<=\\D)(?=\\d)")[1]);
+                            boolean deleted = db.deleteFlightForUser(userIdArg, String.valueOf(selectedFlight));
+                            Toast.makeText(ReservationsActivity.this, deleted ? "Reservation successfully deleted" : "Error! Not deleted", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+                    alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AlertDialog.Builder alertNo = new AlertDialog.Builder(ReservationsActivity.this);
+                            alertNo.setTitle("Failed Cancellation");
+                            alertNo.setMessage("The reservations will not be cancelled!");
+                            alertNo.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                            alertNo.create().show();
+                        }
+                    });
+                    alert.setCancelable(false);
+                    alert.create().show();
                 }
             }
         });
