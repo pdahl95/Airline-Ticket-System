@@ -36,7 +36,7 @@ public class SelectFlightActivity extends AppCompatActivity {
     String departureCity;
     String arrivalCity;
 
-    TextView textView_depatureCity;
+    TextView textView_departureCity;
     TextView textview_arrivalCity;
 
 
@@ -45,7 +45,7 @@ public class SelectFlightActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_flight);
 
-        textView_depatureCity = (TextView) findViewById(R.id.textView_show_dept);
+        textView_departureCity = (TextView) findViewById(R.id.textView_show_dept);
         textview_arrivalCity = (TextView) findViewById(R.id.textView_show_arr);
 
         Intent intent = getIntent();
@@ -72,7 +72,7 @@ public class SelectFlightActivity extends AppCompatActivity {
             radioButton.setId(Integer.parseInt(flight.getFlightId()));
             flightsRadioGroup.addView(radioButton);
         }
-        textView_depatureCity.setText(departureCity);
+        textView_departureCity.setText(departureCity);
         textview_arrivalCity.setText(arrivalCity);
 
         Log.d("Angel", "departure " + departureCity + "- arrival " + arrivalCity + "- ticketCount " + ticketCount);
@@ -112,7 +112,7 @@ public class SelectFlightActivity extends AppCompatActivity {
         if (selectedFlight == null) {
             return;
         }
-        textView_depatureCity.setText(departureCity);
+        textView_departureCity.setText(departureCity);
         textview_arrivalCity.setText(arrivalCity);
 
         final String reservationId = String.valueOf(System.currentTimeMillis());
@@ -124,7 +124,7 @@ public class SelectFlightActivity extends AppCompatActivity {
             + "\nArrival: " + selectedFlight.getArrivalCity()
             + "\nNumber of tickets: " + ticketCount
             + "\nReservation id: " + reservationId
-            + "\nTotal amount: " + selectedFlight.getPrice());
+            + "\nTotal amount: " + selectedFlight.getPrice()); // TODO- if more then 1 ticket booked must give the amount for all ticketcount!!
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
