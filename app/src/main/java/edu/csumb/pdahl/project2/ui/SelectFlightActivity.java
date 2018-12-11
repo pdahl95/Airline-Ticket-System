@@ -141,7 +141,24 @@ public class SelectFlightActivity extends AppCompatActivity {
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                AlertDialog.Builder alert = new AlertDialog.Builder(SelectFlightActivity.this);
+                alert.setTitle("Error!");
+                alert.setMessage("Are you certain you want to cancel the reservation?!");
+                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // clicked ok, then user should be able to reenter to serve a seat!
+                        finish();
+                    }
+                });
+                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+                    }
+                });
+                alert.create().show();
+//                finish();
             }
         });
         alert.setCancelable(false);

@@ -1,7 +1,9 @@
 package edu.csumb.pdahl.project2.ui;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     String userNameInput;
     String passWordInput;
 
+    int counter = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +47,23 @@ public class LoginActivity extends AppCompatActivity {
                 passWordInput = passWord.getText().toString();
                 //login - get the user from login (username)
                 // use database to check is user is there or not!
-                // TODO if logged in, send success result and finish
                 User user = userDB.getUserData(userNameInput, passWordInput);
                 if(user == null) {
-                    Toast.makeText(LoginActivity.this, "User does not exist!", Toast.LENGTH_SHORT).show();
-                    // TODO 2 failures if not finish
+                    Toast.makeText(LoginActivity.this, "This user is not registered!", Toast.LENGTH_SHORT).show();
+                    counter++;
+                    if(counter == 2){
+                        AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                        alert.setTitle("Failed Login");
+                        alert.setMessage("You entered the wrong information twice!");
+                        alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // clicked Confirm --> Go back to Main Menu
+                                finish();
+                            }
+                        });
+                        alert.create().show();
+                    }
                 } else {
                     Toast.makeText(LoginActivity.this, "User exist", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
@@ -56,18 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }
-
-
-
-                 // TODO if failure, show message first time, send failure result and finish on second try
-//                int id = getId();
-//                Intent intent = new Intent();
-//                intent.putExtra("arg_user_id", id);
-//                setResult(Activity.RESULT_OK);
-//                finish();
-
-
-
             }
         });
     }

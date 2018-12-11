@@ -1,6 +1,8 @@
 package edu.csumb.pdahl.project2.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +26,8 @@ public class ReserveSeatActivity extends AppCompatActivity {
     String arrCityInput;
     String numOfTicketInput;
 
+    int maxTicketCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,18 +43,41 @@ public class ReserveSeatActivity extends AppCompatActivity {
         reserveSeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSelectFlight(departureCity.getText().toString(), arrivalCity.getText().toString(), numTickets.getText().toString());
-                AddData();
+                checkForSystemRestrictions();
+                if(checkForSystemRestrictions() == true){
+                    openSelectFlight(departureCity.getText().toString(), arrivalCity.getText().toString(), numTickets.getText().toString());
+                    AddData();
+                }
             }
         });
+    }
 
-
+    public boolean checkForSystemRestrictions(){
+        numOfTicketInput = numTickets.getText().toString();
+        maxTicketCount = Integer.parseInt(numOfTicketInput);
+        if(maxTicketCount > 7){
+            AlertDialog.Builder alert = new AlertDialog.Builder(ReserveSeatActivity.this);
+            alert.setTitle("Error!");
+            alert.setMessage("Reservation was not complete! \n You requested more than 7 tickets!");
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // clicked ok, then user should be able to reenter to serve a seat!
+                    finish();
+                }
+            });
+            alert.create().show();
+            return false;
+        }
+        return true;
     }
 
     public void AddData() {
         deptCityInput = departureCity.getText().toString();
         arrCityInput = arrivalCity.getText().toString();
         numOfTicketInput = numTickets.getText().toString();
+
+        maxTicketCount = Integer.parseInt(numOfTicketInput);
 
     }
 

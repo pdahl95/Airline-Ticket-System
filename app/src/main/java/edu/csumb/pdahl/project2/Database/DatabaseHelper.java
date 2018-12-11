@@ -159,13 +159,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Flight> getReservationsByUserID(String userId) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM flight_table AS F " +
-                "INNER JOIN user_flight_table ON F.flight_id = flight_id " +
+                "INNER JOIN user_flight_table ON F.uuid = flight_id " +
                 "WHERE user_id = ?", new String[]{userId});
 
         List<Flight> listOfFlights = new ArrayList<>();
         Flight flight;
 
-        // parse data and crate a flight
+        // parse data and create a flight
         while (cursor.moveToNext()) {
             flight = createFlightObject(cursor);
 
@@ -173,6 +173,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return listOfFlights;
+    }
+
+    public boolean deleteFlightForUser(String userId, String flightId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("user_flight_table", "user_id = ? and flight_id = ?" , new String[]{userId,flightId} ) > 0;
     }
 
     private Flight createFlightObject(Cursor cursor) {
