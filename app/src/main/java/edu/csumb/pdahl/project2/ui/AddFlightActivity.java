@@ -104,8 +104,18 @@ public class AddFlightActivity extends AppCompatActivity {
                 alert.create().show();
             } else {
                 Toast.makeText(AddFlightActivity.this, "Data Not Added", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder alert = new AlertDialog.Builder(AddFlightActivity.this);
+                alert.setTitle("Invalid Input");
+                alert.setMessage("Invalid Input! Flight already exist!");
+                alert.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(AddFlightActivity.this, AirlineTicket.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.create().show();
             }
-//            finish();
         }
 
     }
