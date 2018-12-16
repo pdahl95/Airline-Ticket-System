@@ -77,12 +77,6 @@ public class ReserveSeatActivity extends AppCompatActivity {
         deptCityInput = departureCity.getText().toString();
         arrCityInput = arrivalCity.getText().toString();
         numOfTicketInput = numTickets.getText().toString();
-
-        flightDB.logTransaction(TransactionType.RESERVE_SEAT,
-                String.format("user %s \n Flight Number %s \n Departure/Arrival \n " +
-                        "Number of Tickets \n  Reservations Number \n Total Amount",LoginActivity.KEY_USER_NAME, deptCityInput, arrCityInput, numOfTicketInput ));
-
-
         maxTicketCount = Integer.parseInt(numOfTicketInput);
 
     }

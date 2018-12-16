@@ -92,9 +92,11 @@ public class AirlineTicket extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     String userId = data.getStringExtra(LoginActivity.KEY_USERID);
+                    String username = data.getStringExtra(LoginActivity.KEY_USER_NAME);
                     // start activity for display reservation
                     Intent intent = new Intent(this, ReservationsActivity.class);
                     intent.putExtra(ReservationsActivity.USER_KEY, userId);
+                    intent.putExtra(ReservationsActivity.KEY_USER_NAME, username);
                     startActivity(intent);
                 }
             }

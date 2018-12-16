@@ -20,6 +20,7 @@ import java.util.List;
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
 import edu.csumb.pdahl.project2.model.Flight;
+import edu.csumb.pdahl.project2.model.TransactionType;
 
 public class SelectFlightActivity extends AppCompatActivity {
 
@@ -106,13 +107,15 @@ public class SelectFlightActivity extends AppCompatActivity {
         startActivityForResult(intent, LOGIN_REQUEST);
     }
 
-    private void displayConfirmation(String username, final String userId) {
+    private void displayConfirmation(final String username, final String userId) {
         final Flight selectedFlight = getSelectedFlight();
         if (selectedFlight == null) {
             return;
         }
         textView_departureCity.setText(departureCity);
         textview_arrivalCity.setText(arrivalCity);
+
+        final double totalAmount = Double.parseDouble(selectedFlight.getPrice()) * Double.valueOf(ticketCount);
 
         final String reservationId = String.valueOf(System.currentTimeMillis());
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -123,7 +126,7 @@ public class SelectFlightActivity extends AppCompatActivity {
             + "\nArrival: " + selectedFlight.getArrivalCity()
             + "\nNumber of tickets: " + ticketCount
             + "\nReservation Number: " + reservationId
-            + "\nTotal amount: " + selectedFlight.getPrice()); // TODO- if more then 1 ticket booked must give the amount for all ticketcount!!
+            + "\nTotal amount: " + totalAmount);
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -131,6 +134,16 @@ public class SelectFlightActivity extends AppCompatActivity {
                 boolean result = db.addUserFlightData(userId, selectedFlight.getFlightId(), reservationId, ticketCount);
                 if (result) {
                     Toast.makeText(SelectFlightActivity.this, "Reservation success!", Toast.LENGTH_SHORT).show();
+                    db.logTransaction(TransactionType.RESERVE_SEAT,
+                            String.format("user %s \n Flight Number %s \n Departure/Arrival %s - %s \n Number of Tickets %s \n Reservation Number %s \n Total Amount %s .",
+                                    username,
+                                    selectedFlight.getFlightNumber(),
+                                    selectedFlight.getDepartureCity(),
+                                    selectedFlight.getArrivalCity(),
+                                    ticketCount,
+                                    reservationId,
+                                    totalAmount)
+                    );
                     finish();
                 } else {
                     Toast.makeText(SelectFlightActivity.this, "Reservation already exists.", Toast.LENGTH_SHORT).show();

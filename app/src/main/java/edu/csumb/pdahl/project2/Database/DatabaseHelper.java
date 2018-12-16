@@ -13,6 +13,7 @@ import edu.csumb.pdahl.project2.model.Flight;
 import edu.csumb.pdahl.project2.model.Log;
 import edu.csumb.pdahl.project2.model.TransactionType;
 import edu.csumb.pdahl.project2.model.User;
+import edu.csumb.pdahl.project2.model.UserFlight;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -199,28 +200,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public List<Flight> getReservationsByUserID(String userId) {
+    public Flight getFlightById(String flightId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM flight_table AS F " +
-                "INNER JOIN user_flight_table ON F.uuid = flight_id " +
-                "WHERE user_id = ?", new String[]{userId});
+        Cursor cursor = db.rawQuery("SELECT * FROM flight_table WHERE uuid = ? ", new String[]{flightId});
 
-        List<Flight> listOfFlights = new ArrayList<>();
         Flight flight;
-
-        // parse data and create a flight
-        while (cursor.moveToNext()) {
-            flight = createFlightObject(cursor);
-
-            listOfFlights.add(flight);
-        }
-
-        return listOfFlights;
+        cursor.moveToFirst();
+        flight = new Flight(cursor.getString(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4),
+                cursor.getString(5),
+                cursor.getString(6));
+        return flight;
     }
 
-    public boolean deleteFlightForUser(String userId, String flightId) {
+    public boolean deleteFlightForUser(String userId, String reservationId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("user_flight_table", "user_id = ? and flight_id = ?", new String[]{userId, flightId}) > 0;
+        return db.delete("user_flight_table", "user_id = ? and reservation_id = ?", new String[]{userId, reservationId}) > 0;
     }
 
     private Flight createFlightObject(Cursor cursor) {
@@ -307,25 +305,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-//public boolean addFlightData(String flightNum, String dept, String arr, String deptTime, String cap, String price ) {
-//    SQLiteDatabase db = this.getWritableDatabase();
-//    ContentValues contentValues = new ContentValues();
-//    contentValues.put(ColsFlight.FLIGHTNUM, flightNum);
-//    contentValues.put(ColsFlight.DEPARTURE, dept);
-//    contentValues.put(ColsFlight.ARRIVAL, arr);
-//    contentValues.put(ColsFlight.CAPACITY, cap);
-//    contentValues.put(ColsFlight.DEPARTURETIME, deptTime);
-//    contentValues.put(ColsFlight.PRICE, price);
-//
-//    long result = db.insert(FLIGHT_TABLE, null, contentValues);
-//
-//    db.close();
-//
-//    if (result == -1) {
-//        return false;
-//    } else {
-//        return true;
-//    }
-//}
 
+    public List<UserFlight> getUserFlights(String userId) {
+        List<UserFlight> userFlightList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + USERFLIGHT_TABLE + " where user_id = ? ", new String[]{userId});
+        cursor.moveToFirst();
+        while (cursor.moveToNext()) {
+            UserFlight userFlight = new UserFlight(cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3));
+            userFlightList.add(userFlight);
+        }
+        return userFlightList;
+    }
 }

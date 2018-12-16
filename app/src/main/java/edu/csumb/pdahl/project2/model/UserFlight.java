@@ -1,33 +1,48 @@
 package edu.csumb.pdahl.project2.model;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-
 public class UserFlight {
 
-    private int userId;
-    private int flightId;
-    private int reservationId;
+    private String userId;
+    private String flightId;
+    private String reservationId;
+    private String ticketCount;
 
-    public int getReservationId() {
-        return reservationId;
+    public UserFlight(String flightId, String userId , String reservationId, String ticketCount) {
+        this.flightId = flightId;
+        this.userId = userId;
+        this.reservationId = reservationId;
+        this.ticketCount = ticketCount;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public int getFlightId() {
-        return flightId;
-    }
-
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public void setFlightId(int flightId) {
+    public String getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(String flightId) {
         this.flightId = flightId;
+    }
+
+    public String getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(String reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public String getTicketCount() {
+        return ticketCount;
+    }
+
+    public void setTicketCount(String ticketCount) {
+        this.ticketCount = ticketCount;
     }
 }

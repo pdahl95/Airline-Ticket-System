@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -17,12 +16,15 @@ import java.util.List;
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
 import edu.csumb.pdahl.project2.model.Flight;
+import edu.csumb.pdahl.project2.model.TransactionType;
+import edu.csumb.pdahl.project2.model.UserFlight;
 
 public class ReservationsActivity extends AppCompatActivity {
 
     public static final String USER_KEY = "user_key";
+    public static final String KEY_USER_NAME = "key_user_name";
 
-    private List<Flight> flights;
+
     private DatabaseHelper db;
     private RadioGroup displayReservationRadioGroup;
     Button cancelReservationButton;
@@ -35,19 +37,19 @@ public class ReservationsActivity extends AppCompatActivity {
         final String userIdArg = getUserIdArg();
 
         db = DatabaseHelper.getInstance(getApplicationContext());
-        flights = db.getReservationsByUserID(userIdArg);
-        Log.d(this.getClassLoader().getClass().getName(), "flight size is : " + flights.size());
+        List<UserFlight> userFlights = db.getUserFlights(userIdArg);
         displayReservationRadioGroup = findViewById(R.id.radioGroup_reservations);
-        for (Flight flight : flights) {
+        for (UserFlight userFlight : userFlights) {
             RadioButton radioButton = new RadioButton(this);
+            Flight flight = db.getFlightById(userFlight.getFlightId());
 //            Log.d("angel", flight.getFlightId());
-            radioButton.setText("Reservation Number: " + flight.getFlightId() // TODO NEED TO GET THE RESERVATIONS NUMBER!!!
+            radioButton.setText("Reservation Number: " + userFlight.getReservationId()
                     + "\nFlight Number: " + flight.getFlightNumber()
-                    + "\nDeparture at "
-                    + flight.getDepartureTime()
-                    + "\nAvailable Seats - "
-                    + flight.getCapacity()
-                    );
+                    + "\n Departure/Arrival: " + flight.getDepartureCity() + ", " + flight.getArrivalCity()
+                    + "\nDeparture at " + flight.getDepartureTime()
+                    + "\nNumber of Tickets Reserved- " + userFlight.getTicketCount()
+                    + "\n"
+            );
             radioButton.setId(Integer.parseInt(flight.getFlightId()));
             displayReservationRadioGroup.addView(radioButton);
         }
@@ -80,9 +82,15 @@ public class ReservationsActivity extends AppCompatActivity {
                             // clicked ok, then user should be able to reenter to serve a seat!
                             RadioButton canceledFlight = (RadioButton) findViewById(id);
                             String[] parts = canceledFlight.getText().toString().split("\n");
-                            int selectedFlight = Integer.parseInt(parts[0].split("(?<=\\D)(?=\\d)")[1]);
-                            boolean deleted = db.deleteFlightForUser(userIdArg, String.valueOf(selectedFlight));
-                            Toast.makeText(ReservationsActivity.this, deleted ? "Reservation successfully deleted" : "Error! Not deleted", Toast.LENGTH_SHORT).show();
+                            String reservationId = parts[0].split(":")[1].trim();
+                            boolean deleted = db.deleteFlightForUser(userIdArg, reservationId);
+                            if(deleted){
+                                Toast.makeText(ReservationsActivity.this, "Reservation successfully deleted", Toast.LENGTH_SHORT).show();
+                                db.logTransaction(TransactionType.CANCELLATION, canceledFlight.getText().toString()+"user: " + getUsername());
+                            }else{
+                                Toast.makeText(ReservationsActivity.this, "Error! Not deleted", Toast.LENGTH_SHORT).show();
+                            }
+//                            Toast.makeText(ReservationsActivity.this, deleted ? "Reservation successfully deleted" : "Error! Not deleted", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     });
@@ -118,7 +126,8 @@ public class ReservationsActivity extends AppCompatActivity {
         return null;
     }
 
-    private void displayReservationsForUser(String userId){
-
+    private String getUsername() {
+        Intent intent = getIntent();
+        return intent == null ? null : intent.getStringExtra(KEY_USER_NAME);
     }
 }
