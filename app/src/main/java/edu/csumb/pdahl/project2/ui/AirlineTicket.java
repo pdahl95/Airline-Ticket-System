@@ -60,39 +60,7 @@ public class AirlineTicket extends AppCompatActivity {
         });
 
 //        DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
-//        boolean res = db.addFlightData(new Flight(
-//                "-1",
-//                "Otter101",
-//                "SF",
-//                "LA",
-//                "10:00AM",
-//                "10",
-//                "50.00"
-//        ));
-//
-//        db.addFlightData(new Flight(
-//                "-1",
-//                "Otter102",
-//                "SF",
-//                "LA",
-//                "12:00AM",
-//                "3",
-//                "50.00"
-//        ));
-//        db.addFlightData(new Flight(
-//                "-1",
-//                "Otter103",
-//                "SF",
-//                "LA",
-//                "4:00AM",
-//                "10",
-//                "50.00"
-//        ));
-
-//        List<Flight> flights = db.getFlights("", "", Integer.valueOf("12"));
-
-//        int x = 0;
-
+//        db.onUpgrade(db.getWritableDatabase(),db.getWritableDatabase().getVersion(),db.getWritableDatabase().getVersion()+1);
     }
 
     public void openCreateAccount() {

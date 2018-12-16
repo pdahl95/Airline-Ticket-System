@@ -1,27 +1,38 @@
 package edu.csumb.pdahl.project2.model;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
-@Entity
 public class Log {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-    @ColumnInfo(name = "type_id")
-    private int typeId;
-    private String values;
+    private String timestamp;
+    private TransactionType type;
+    private String log;
 
-
-    public int getId() {
-        return id;
+    public Log(String timestamp, TransactionType type, String log) {
+        this.timestamp = timestamp;
+        this.type = type;
+        this.log = log;
     }
 
-    public int getTypeId() {
-        return typeId;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public String getValues() {
-        return values;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public String getLog() {
+        return log;
+    }
+
+    public void setLog(String log) {
+        this.log = log;
     }
 }
+

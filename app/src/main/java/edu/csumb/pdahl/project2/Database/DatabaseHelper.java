@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.csumb.pdahl.project2.model.Flight;
+import edu.csumb.pdahl.project2.model.Log;
+import edu.csumb.pdahl.project2.model.TransactionType;
 import edu.csumb.pdahl.project2.model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -45,6 +47,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String TICKETS_COUNT = "tickets_count";
     }
 
+    public static final String TRANSACTIONS_LOG_TABLE = "transactions_log";
+
+    public static final class ColsTransactionLogs {
+        public static final String TYPE = "type";
+        public static final String TIMESTAMP = "timestamp";
+        public static final String LOG = "log";
+    }
+
     private static DatabaseHelper INSTANCE;
 
     public static DatabaseHelper getInstance(Context context) {
@@ -61,12 +71,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createUserTable = "CREATE TABLE " + USER_TABLE + "(" + ColsUser.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+        String createUserTable = "CREATE TABLE IF NOT EXISTS " + USER_TABLE + "(" + ColsUser.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ColsUser.USERNAME + ", "
                 + ColsUser.PASSWORD
                 + ")";
 
-        String createFlightTable = "CREATE TABLE " + FLIGHT_TABLE + "(" + ColsFlight.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+        String createFlightTable = "CREATE TABLE IF NOT EXISTS " + FLIGHT_TABLE + "(" + ColsFlight.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ColsFlight.FLIGHTNUM + ","
                 + ColsFlight.DEPARTURE + ", "
                 + ColsFlight.ARRIVAL + ", "
@@ -74,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ColsFlight.CAPACITY + ", "
                 + ColsFlight.PRICE
                 + ")";
-        String createUserFlightTable = "CREATE TABLE " + USERFLIGHT_TABLE + "("
+        String createUserFlightTable = "CREATE TABLE IF NOT EXISTS " + USERFLIGHT_TABLE + "("
                 + ColsUserFlight.FLIGHTID + ", "
                 + ColsUserFlight.USERID + ", "
                 + ColsUserFlight.RESERVATIONID + ", "
@@ -84,16 +94,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ColsUserFlight.USERID + ")"
                 + ")";
 
+        String createTransactionLogs = "CREATE TABLE IF NOT EXISTS " + TRANSACTIONS_LOG_TABLE + "("
+                + ColsTransactionLogs.TIMESTAMP + ", "
+                + ColsTransactionLogs.TYPE + ", "
+                + ColsTransactionLogs.LOG
+                + ")";
 
         db.execSQL(createUserTable);
         db.execSQL(createFlightTable);
         db.execSQL(createUserFlightTable);
+        db.execSQL(createTransactionLogs);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
         onCreate(db);
+        addFlightData(new Flight("-1", "Otter101", "SF", "LA", "10:00AM", "10", "50.00"));
+        addFlightData(new Flight("-1", "Otter102", "SF", "LA", "12:00AM", "3", "50.00"));
+        addFlightData(new Flight("-1", "Otter103", "SF", "LA", "4:00AM", "10", "50.00"));
     }
 
     public boolean addUserFlightData(String userId, String flightId, String reservationId, String ticketCount) {
@@ -111,6 +129,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+
+    public void logTransaction(TransactionType type, String log) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ColsTransactionLogs.TIMESTAMP, System.currentTimeMillis());
+        contentValues.put(ColsTransactionLogs.TYPE, type.toString());
+        contentValues.put(ColsTransactionLogs.LOG, log);
+        if (db.insert(TRANSACTIONS_LOG_TABLE, null, contentValues) <= 0) {
+            android.util.Log.d("**********", "couldn't insert log to log table");
+        }
+    }
+
+    public List<Log> getTransactionLogs() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TRANSACTIONS_LOG_TABLE, null);
+        cursor.moveToFirst();
+        List<Log> logList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Log log = new Log(cursor.getString(0),TransactionType.valueOf(cursor.getString(1)), cursor.getString(2));
+            logList.add(log);
+        }
+        cursor.close();
+        return logList;
     }
 
 
@@ -177,7 +220,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean deleteFlightForUser(String userId, String flightId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("user_flight_table", "user_id = ? and flight_id = ?" , new String[]{userId,flightId} ) > 0;
+        return db.delete("user_flight_table", "user_id = ? and flight_id = ?", new String[]{userId, flightId}) > 0;
     }
 
     private Flight createFlightObject(Cursor cursor) {
@@ -226,25 +269,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-
-    //    public void ViewData(){
-//        Cursor data = userDB.showData();
-//
-//        if (data.getCount() == 0) {
-//            display("Error", "No Data In Database.");
-//            return;
-//        }
-//        StringBuffer buffer = new StringBuffer();
-//        while (data.moveToNext()) {
-//            buffer.append("ID: " + data.getString(0) + "\n");
-//            buffer.append("Username: " + data.getString(1) + "\n");
-//            buffer.append("Password: " + data.getString(2) + "\n");
-//
-//            display("All Stored Data:", buffer.toString());
-//        }
-//
-////        data.close();
-//    }
     // give access to the rows of a table (can use it for any table)
     private Cursor queryDB(String tableName, String whereClause, String[] whereArgs) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -283,17 +307,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-
-
-//    public Cursor showData(){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor data = db.rawQuery("SELECT * FROM " + USER_TABLE, null);
-//        return data;
-//    }
+//public boolean addFlightData(String flightNum, String dept, String arr, String deptTime, String cap, String price ) {
+//    SQLiteDatabase db = this.getWritableDatabase();
+//    ContentValues contentValues = new ContentValues();
+//    contentValues.put(ColsFlight.FLIGHTNUM, flightNum);
+//    contentValues.put(ColsFlight.DEPARTURE, dept);
+//    contentValues.put(ColsFlight.ARRIVAL, arr);
+//    contentValues.put(ColsFlight.CAPACITY, cap);
+//    contentValues.put(ColsFlight.DEPARTURETIME, deptTime);
+//    contentValues.put(ColsFlight.PRICE, price);
 //
-//    public Integer deleteData(String id){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        return db.delete(USER_TABLE, "ID = ?", new String[] {id});
+//    long result = db.insert(FLIGHT_TABLE, null, contentValues);
+//
+//    db.close();
+//
+//    if (result == -1) {
+//        return false;
+//    } else {
+//        return true;
 //    }
+//}
 
 }

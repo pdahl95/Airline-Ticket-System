@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
+import edu.csumb.pdahl.project2.model.TransactionType;
 import edu.csumb.pdahl.project2.model.User;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -118,8 +119,10 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         boolean insertData = userDB.addUserData(userNameInput, passWordInput);
 
-        if (insertData == true) {
+        if (insertData) {
             Toast.makeText(CreateAccountActivity.this, "Account Created Successfully!", Toast.LENGTH_LONG).show();
+            userDB.logTransaction(TransactionType.NEW_ACCOUNT,
+                    String.format("user %s created account.",userNameInput));
         } else {
             Toast.makeText(CreateAccountActivity.this, "Account Not Created!", Toast.LENGTH_LONG).show();
         }
@@ -128,9 +131,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         if(test == null) {
             Toast.makeText(CreateAccountActivity.this, "User does not exist!", Toast.LENGTH_SHORT).show();
         }
-//        else {
-//            Toast.makeText(CreateAccountActivity.this, "", Toast.LENGTH_SHORT).show();
-//        }
         finish();
     }
 
