@@ -57,34 +57,46 @@ public class SelectFlightActivity extends AppCompatActivity {
         db = DatabaseHelper.getInstance(getApplicationContext());
         flights = db.getFlights(departureCity, arrivalCity, Integer.valueOf(ticketCount));
 
+        if(flights.isEmpty()){
+            textView_departureCity.setText(departureCity);
+            textview_arrivalCity.setText(arrivalCity);
+            AlertDialog.Builder alert = new AlertDialog.Builder(SelectFlightActivity.this);
+            alert.setTitle("No Available Flights!");
+            alert.setMessage("There is no available flights for the requested cities! Please exit the program!");
+            alert.setPositiveButton("EXIT", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alert.create().show();
+        }else{
+            flightsRadioGroup = findViewById(R.id.radioGroup_flights);
+            for (Flight flight : flights) {
+                RadioButton radioButton = new RadioButton(this);
+                radioButton.setText("Flight Number: " + flight.getFlightNumber()
+                        + "\nDeparture at "
+                        + flight.getDepartureTime()
+                        + "\nAvailable Seats - "
+                        + flight.getCapacity()
+                        + "\nPrice $"
+                        + flight.getPrice()
+                        + "\n");
 
-        flightsRadioGroup = findViewById(R.id.radioGroup_flights);
-        for (Flight flight : flights) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText("Flight Number: " + flight.getFlightNumber()
-                                + "\nDeparture at "
-                                + flight.getDepartureTime()
-                                + "\nAvailable Seats - "
-                                + flight.getCapacity()
-                                + "\nPrice $"
-                                + flight.getPrice()
-                                + "\n");
-
-            radioButton.setId(Integer.parseInt(flight.getFlightId()));
-            flightsRadioGroup.addView(radioButton);
-        }
-        textView_departureCity.setText(departureCity);
-        textview_arrivalCity.setText(arrivalCity);
-
-        Log.d("Angel", "departure " + departureCity + "- arrival " + arrivalCity + "- ticketCount " + ticketCount);
-
-        Button selectFlight = (Button) findViewById(R.id.button_select_ticket);
-        selectFlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openLogInActivity();
+                radioButton.setId(Integer.parseInt(flight.getFlightId()));
+                flightsRadioGroup.addView(radioButton);
             }
-        });
+            textView_departureCity.setText(departureCity);
+            textview_arrivalCity.setText(arrivalCity);
+
+            Button selectFlight = (Button) findViewById(R.id.button_select_ticket);
+            selectFlight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openLogInActivity();
+                }
+            });
+        }
     }
 
     @Override
@@ -102,7 +114,6 @@ public class SelectFlightActivity extends AppCompatActivity {
     }
 
     public void openLogInActivity(){
-        // TODO check that radio button is selected
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, LOGIN_REQUEST);
     }
@@ -160,7 +171,6 @@ public class SelectFlightActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // clicked ok, then user should be able to reenter to serve a seat!
-//                        finish();
                         AlertDialog.Builder alert = new AlertDialog.Builder(SelectFlightActivity.this);
                         alert.setTitle("Error!");
                         alert.setMessage("Reservation was not completed! Please Confirm!");
