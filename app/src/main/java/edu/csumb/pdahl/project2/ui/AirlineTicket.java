@@ -1,4 +1,11 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: AirlineTicket.java
+ * Abstract: This is the main page of the Android Application. This is where the four options of
+ * "Create Account", "Reserve Seat", "Cancel Reservation" and "Manage system" are located.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,12 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
-
-import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
-import edu.csumb.pdahl.project2.model.Flight;
-import edu.csumb.pdahl.project2.model.Log;
 
 public class AirlineTicket extends AppCompatActivity {
 

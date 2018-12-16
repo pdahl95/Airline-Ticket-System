@@ -1,4 +1,11 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: ManageSystem.java
+ * Abstract: This is the file for manage system. The username and password is set to only be
+ * admin2. There is a validation to check, so only admin2 can access this flow.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

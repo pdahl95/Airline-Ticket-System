@@ -1,17 +1,20 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: CreateAccountActivity.java
+ * Abstract: This file is where the user are redirected to after AirlineTicket Activity.
+ * This file is for create accounts, validate the input, and add the account to the database.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
 import edu.csumb.pdahl.project2.model.TransactionType;

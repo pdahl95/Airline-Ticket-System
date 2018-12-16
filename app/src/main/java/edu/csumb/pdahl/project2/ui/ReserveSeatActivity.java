@@ -1,4 +1,12 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: ReserveSeatActivity.java
+ * Abstract: This is the file where the user can type in departure/arrival information,
+ * and be directed to the available flights(SelectFlightActivity.java). And make the reservation.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
+
 
 import android.content.DialogInterface;
 import android.content.Intent;

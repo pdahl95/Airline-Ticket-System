@@ -1,4 +1,12 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: SelectFlightActivity.java
+ * Abstract: This is the file, to be access from ReserveSeatActivity.java.
+ * Reservations gets approved, and added to the user_flight_table.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
+
 
 import android.app.Activity;
 import android.content.DialogInterface;

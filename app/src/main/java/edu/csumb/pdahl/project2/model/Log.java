@@ -1,4 +1,10 @@
 package edu.csumb.pdahl.project2.model;
+/**
+ * Title: Log.java
+ * Abstract: File with constructor, getters and setters for logs.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 public class Log {
     private String timestamp;

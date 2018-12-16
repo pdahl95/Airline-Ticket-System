@@ -1,4 +1,11 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: LoginActivity.java
+ * Abstract: This is a reusable to login page, that is reused in many of the different flows.
+ * It is a login page, where the input gets validated.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 import android.app.Activity;
 import android.content.DialogInterface;

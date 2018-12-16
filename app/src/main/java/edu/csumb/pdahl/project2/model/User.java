@@ -1,4 +1,10 @@
 package edu.csumb.pdahl.project2.model;
+/**
+ * Title: User.java
+ * Abstract: File with constructor, getters and setters for users.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 public class User {
     private String userId;

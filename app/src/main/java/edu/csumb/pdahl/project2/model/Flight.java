@@ -1,4 +1,11 @@
 package edu.csumb.pdahl.project2.model;
+/**
+ * Title: Flight.java
+ * Abstract: File with constructor, getters and setters for flights.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
+
 
 public class Flight {
     private String flightId;

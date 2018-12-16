@@ -1,4 +1,10 @@
 package edu.csumb.pdahl.project2;
+/**
+ * Title: FlightLog.java
+ * Abstract: File to actual log the flights.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

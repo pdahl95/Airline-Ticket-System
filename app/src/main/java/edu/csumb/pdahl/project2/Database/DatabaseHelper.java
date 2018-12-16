@@ -1,4 +1,12 @@
 package edu.csumb.pdahl.project2.Database;
+/**
+ * Title: DatabaseHelper.java
+ * Abstract: This is the only file dealing with the database!
+ * The schema, create tables and all functions are in this file.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
+
 
 import android.content.ContentValues;
 import android.content.Context;

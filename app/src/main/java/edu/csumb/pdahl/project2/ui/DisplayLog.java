@@ -1,4 +1,11 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: DisplayLog.java
+ * Abstract: This is the file where all the logs of different transactions gets displayed for the
+ * manage system to view.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,15 +16,10 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.List;
-
 import edu.csumb.pdahl.project2.Database.DatabaseHelper;
 import edu.csumb.pdahl.project2.R;
 import edu.csumb.pdahl.project2.model.Log;
-import edu.csumb.pdahl.project2.model.TransactionType;
-import edu.csumb.pdahl.project2.model.User;
 
 public class DisplayLog extends AppCompatActivity {
 

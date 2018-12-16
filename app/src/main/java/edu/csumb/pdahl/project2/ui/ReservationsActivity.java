@@ -1,4 +1,11 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: ReservationsActivity.java
+ * Abstract: This file is in the cancel reservation flow. This file displays the possible
+ * flights for the user to cancel. The user is allowed to cancel the flow, and keep the reservation.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 import android.content.DialogInterface;
 import android.content.Intent;

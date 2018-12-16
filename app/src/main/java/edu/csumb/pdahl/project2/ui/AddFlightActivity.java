@@ -1,8 +1,13 @@
 package edu.csumb.pdahl.project2.ui;
+/**
+ * Title: AddFlightActivity.java
+ * Abstract: The files is where the manage system, can add new flights to the system.
+ * Name: Pernille Dahl
+ * Date: 2018-Dec-16
+ */
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
