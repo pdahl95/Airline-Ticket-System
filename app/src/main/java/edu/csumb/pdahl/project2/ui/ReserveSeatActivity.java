@@ -64,7 +64,6 @@ public class ReserveSeatActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // clicked ok, then user should be able to reenter to serve a seat!
-//                    finish();
                 }
             });
             alert.create().show();

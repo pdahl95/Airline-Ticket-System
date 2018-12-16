@@ -117,6 +117,5 @@ public class AddFlightActivity extends AppCompatActivity {
                 alert.create().show();
             }
         }
-
     }
 }
