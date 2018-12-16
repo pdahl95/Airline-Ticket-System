@@ -38,11 +38,22 @@ public class ReservationsActivity extends AppCompatActivity {
 
         db = DatabaseHelper.getInstance(getApplicationContext());
         List<UserFlight> userFlights = db.getUserFlights(userIdArg);
+        if(userFlights.size() == 0){
+            AlertDialog.Builder alert = new AlertDialog.Builder(ReservationsActivity.this);
+            alert.setTitle("No Reservation!");
+            alert.setMessage("There is no reservation with this username");
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alert.create().show();
+        }
         displayReservationRadioGroup = findViewById(R.id.radioGroup_reservations);
         for (UserFlight userFlight : userFlights) {
             RadioButton radioButton = new RadioButton(this);
             Flight flight = db.getFlightById(userFlight.getFlightId());
-//            Log.d("angel", flight.getFlightId());
             radioButton.setText("Reservation Number: " + userFlight.getReservationId()
                     + "\nFlight Number: " + flight.getFlightNumber()
                     + "\n Departure/Arrival: " + flight.getDepartureCity() + ", " + flight.getArrivalCity()

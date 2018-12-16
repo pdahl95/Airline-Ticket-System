@@ -126,7 +126,7 @@ public class SelectFlightActivity extends AppCompatActivity {
             + "\nArrival: " + selectedFlight.getArrivalCity()
             + "\nNumber of tickets: " + ticketCount
             + "\nReservation Number: " + reservationId
-            + "\nTotal amount: " + totalAmount);
+            + "\nTotal amount: $" + totalAmount);
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -19,6 +19,15 @@ public class Flight {
         this.price = price;
     }
 
+    public Flight(String flightNumber, String departureCity, String arrivalCity, String departureTime, String capacity, String price) {
+        this.flightNumber = flightNumber;
+        this.departureCity = departureCity;
+        this.arrivalCity = arrivalCity;
+        this.departureTime = departureTime;
+        this.capacity = capacity;
+        this.price = price;
+    }
+
     public String getFlightId() {
         return flightId;
     }

@@ -119,6 +119,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         boolean insertData = userDB.addUserData(userNameInput, passWordInput);
 
+
+
         if (insertData) {
             Toast.makeText(CreateAccountActivity.this, "Account Created Successfully!", Toast.LENGTH_LONG).show();
             userDB.logTransaction(TransactionType.NEW_ACCOUNT,

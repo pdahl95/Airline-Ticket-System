@@ -299,11 +299,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.close();
 
-        if (result == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        return result > 0;
     }
 
     public List<UserFlight> getUserFlights(String userId) {

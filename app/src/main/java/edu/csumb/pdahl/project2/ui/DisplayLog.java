@@ -1,6 +1,8 @@
 package edu.csumb.pdahl.project2.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -34,17 +36,45 @@ public class DisplayLog extends AppCompatActivity {
         db = DatabaseHelper.getInstance(getApplicationContext());
 
         List<Log> logs = db.getTransactionLogs();
-
-        for(Log log : logs){
-            displayLogTextView.append(String.format("timestamp:%s\ntype:%s\nlog:%s\n-----------------\n", log.getTimestamp(), log.getType().toString(), log.getLog()));
-            displayLogTextView.setMovementMethod(new ScrollingMovementMethod());
+        if(logs.size() == 0){
+            AlertDialog.Builder alert = new AlertDialog.Builder(DisplayLog.this);
+            alert.setTitle("No Log Information!");
+            alert.setMessage("There is no log information to display at this moment! \n Please confirm to add a new flight!");
+            alert.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(DisplayLog.this, AddFlightActivity.class);
+                    startActivity(intent);
+                }
+            });
+            alert.create().show();
+        }else{
+            for(Log log : logs){
+                displayLogTextView.append(String.format("timestamp:%s\ntype:%s\nlog:%s\n-----------------\n", log.getTimestamp(), log.getType().toString(), log.getLog()));
+                displayLogTextView.setMovementMethod(new ScrollingMovementMethod());
+            }
         }
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DisplayLog.this, AddFlightActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder alert = new AlertDialog.Builder(DisplayLog.this);
+                alert.setTitle("Add New Flight Confirmation");
+                alert.setMessage("Do you want to add a new flight?");
+                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(DisplayLog.this, AddFlightActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                alert.create().show();
             }
         });
 
