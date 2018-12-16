@@ -73,12 +73,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createUserTable = "CREATE TABLE IF NOT EXISTS " + USER_TABLE + "(" + ColsUser.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ColsUser.USERNAME + ", "
+                + ColsUser.USERNAME + " UNIQUE , "
                 + ColsUser.PASSWORD
                 + ")";
 
         String createFlightTable = "CREATE TABLE IF NOT EXISTS " + FLIGHT_TABLE + "(" + ColsFlight.UUID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ColsFlight.FLIGHTNUM + ","
+                + ColsFlight.FLIGHTNUM + " UNIQUE ,"
                 + ColsFlight.DEPARTURE + ", "
                 + ColsFlight.ARRIVAL + ", "
                 + ColsFlight.DEPARTURETIME + ", "
@@ -110,9 +110,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onCreate(db);
-        addFlightData(new Flight("-1", "Otter101", "SF", "LA", "10:00AM", "10", "50.00"));
-        addFlightData(new Flight("-1", "Otter102", "SF", "LA", "12:00AM", "3", "50.00"));
-        addFlightData(new Flight("-1", "Otter103", "SF", "LA", "4:00AM", "10", "50.00"));
+//        addFlightData(new Flight("-1", "Otter101", "SF", "LA", "10:00AM", "10", "50.00"));
+//        addFlightData(new Flight("-1", "Otter102", "SF", "LA", "12:00AM", "3", "50.00"));
+//        addFlightData(new Flight("-1", "Otter103", "SF", "LA", "4:00AM", "10", "50.00"));
     }
 
     public boolean addUserFlightData(String userId, String flightId, String reservationId, String ticketCount) {
@@ -147,7 +147,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Log> getTransactionLogs() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TRANSACTIONS_LOG_TABLE, null);
-        cursor.moveToFirst();
         List<Log> logList = new ArrayList<>();
         while (cursor.moveToNext()) {
             Log log = new Log(cursor.getString(0),TransactionType.valueOf(cursor.getString(1)), cursor.getString(2));
@@ -306,7 +305,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<UserFlight> userFlightList = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + USERFLIGHT_TABLE + " where user_id = ? ", new String[]{userId});
-        cursor.moveToFirst();
         while (cursor.moveToNext()) {
             UserFlight userFlight = new UserFlight(cursor.getString(0),
                     cursor.getString(1),

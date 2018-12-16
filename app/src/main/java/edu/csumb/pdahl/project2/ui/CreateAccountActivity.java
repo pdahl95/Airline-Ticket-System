@@ -47,7 +47,6 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateData();
-//                ViewData();
             }
         });
 
@@ -109,8 +108,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                 alert.create().show();
             }
         }
-
-
     }
 
     public void AddData() {
@@ -119,57 +116,41 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         boolean insertData = userDB.addUserData(userNameInput, passWordInput);
 
-
-
         if (insertData) {
             Toast.makeText(CreateAccountActivity.this, "Account Created Successfully!", Toast.LENGTH_LONG).show();
             userDB.logTransaction(TransactionType.NEW_ACCOUNT,
                     String.format("user %s created account.",userNameInput));
         } else {
             Toast.makeText(CreateAccountActivity.this, "Account Not Created!", Toast.LENGTH_LONG).show();
+            counter++;
+            if(counter == 2){
+                AlertDialog.Builder alert1 = new AlertDialog.Builder(CreateAccountActivity.this);
+                alert1.setTitle("Error!");
+                alert1.setMessage("You entered the wrong information twice!");
+                alert1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // clicked Confirm --> Go back to Main Menu
+                        finish();
+                    }
+                });
+                alert1.create().show();
+            }
         }
 
         User test = userDB.getUserData(userNameInput, passWordInput);
         if(test == null) {
             Toast.makeText(CreateAccountActivity.this, "User does not exist!", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("ERROR!");
+            alert.setMessage("The user already exist! Account not created!");
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // second chance to input!
+                }
+            });
+            alert.create().show();
         }
-        finish();
     }
-
-
-
-
-//    public void ViewData(){
-//        Cursor data = userDB.showData();
-//
-//        if (data.getCount() == 0) {
-//            display("Error", "No Data In Database.");
-//            return;
-//        }
-//        StringBuffer buffer = new StringBuffer();
-//        while (data.moveToNext()) {
-//            buffer.append("ID: " + data.getString(0) + "\n");
-//            buffer.append("Username: " + data.getString(1) + "\n");
-//            buffer.append("Password: " + data.getString(2) + "\n");
-//
-//            display("All Stored Data:", buffer.toString());
-//        }
-//
-////        data.close();
-//    }
-
-//    public void display(String title, String message){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setCancelable(true);
-//        builder.setTitle(title);
-//        builder.setMessage(message);
-//        builder.show();
-//    }
-
-
-//    void goBackToMainActivity() {
-//        Intent intent = new Intent(this, AirlineTicket.class);
-//        startActivity(intent);
-//    }
-
 }

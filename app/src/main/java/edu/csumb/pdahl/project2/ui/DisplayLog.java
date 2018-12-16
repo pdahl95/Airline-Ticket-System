@@ -71,7 +71,8 @@ public class DisplayLog extends AppCompatActivity {
                 alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        Intent intent = new Intent(DisplayLog.this, AirlineTicket.class);
+                        startActivity(intent);
                     }
                 });
                 alert.create().show();
